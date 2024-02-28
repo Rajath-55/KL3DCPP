@@ -130,5 +130,25 @@ Output: hop_count => noumber of hops between node1 and node2
 		
  Description : This function calculates the total Hops required to reach node2 starting from node1 
 '''
-def Hops():
-    pass
+def Hops(snode : int, dnode : int, n : int) -> int:
+    hop_count = 0
+    srow = address.row[snode]
+    scol = address.column[snode]
+    drow = address.row[dnode]
+    dcol = address.column[dnode]
+    
+    if address.height[snode] != address.ht[dnode]:
+        hop_count += 1
+    hop_count = hop_count + abs(srow - drow) + abs(scol - dcol)
+    return hop_count
+    
+'''
+Function diff()
+Inputs: first => integer 
+		second => integer
+Output: floating point absolute difference of the two integers.
+
+Description: Wrapper functionn to get diff between two integers
+'''
+def diff(first : int, second : int) -> float:
+    return float(abs(first-second))
