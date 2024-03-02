@@ -26,7 +26,7 @@ struct virtual_address
 } address;
 
 float Init_comm_cut_cost=0,Init_powbal=0, wt=WEIGHT,wt1=WEIGHT;
-void print_arr(int *arr, int len);
+
 /*************************************************************/
 
 
