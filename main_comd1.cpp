@@ -32,6 +32,15 @@ float map_nodes(int nodes, int *final_partition_core, float **graph);
 float flipd(float **G,int *final_partition_core,int k,int t,int nodes,int local);
 /*****************************************************************************************************************************/
 
+/*Function to print array*/
+void print_arr(int *arr, int len){
+	printf("[ ");
+	for(int i = 0; i < len; ++i){
+		printf("%d ", arr[i]);
+	}
+	printf("]\n");
+}
+
 /* Function Read_graph() */
 /*Inputs: name => char array containing the name of the input graph_info */
 /*        dist => control variable telling if the placement should be Distributive or Non-Distributive */
@@ -243,6 +252,7 @@ void initialize_add()
 		row_add[z]=row_add[z]%x;
 		col_add[z]=col_add[z]%y;
 		ht_add[z]=z/(nodes/2);
+		cout<<"Z value "<<z<<" ht value "<<ht_add[z]<<"\n";
 	}
 	//Global address
 	address.colum=col_add;
@@ -256,14 +266,7 @@ void initialize_add()
     a=tmp;
 }
 
-/*Function to print array*/
-void print_arr(int *arr, int len){
-	printf("[ ");
-	for(int i = 0; i < len; ++i){
-		printf("%d ", arr[i]);
-	}
-	printf("]\n");
-}
+
 
 /* Function main() */
 /*Inputs: argc => number of command line inputs */
