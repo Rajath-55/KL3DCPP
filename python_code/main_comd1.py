@@ -1,4 +1,3 @@
-import math
 from typing import Dict, List, Optional, Union
 from header import *
  
@@ -193,6 +192,11 @@ ex.: 	./a.out Graph4.txt 100 0
 '''
 def main(argc : int, argv : List[str]) -> int:
     global NUM_LAYERS
+    curr_time = time.process_time()
+
+    if len(argv) < 2:
+        logging.critical("Use: python3 main_comd1.py input_graph.txt no_of_runs is_distributive num_layers")
+        exit(0)
     pass
  
 '''
