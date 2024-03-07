@@ -1,3 +1,4 @@
+import random
 from typing import List, Dict, Union, Optional
 import math
 import time
@@ -18,6 +19,8 @@ MAX = 1000000
 LAMBDA = 2
 WEIGHT = 1.0
 header_q = 0
+seed_value = [0]*1000
+save_partition = None
 
 
 class VirtualAddress:
@@ -100,7 +103,28 @@ def random_partition(
 
     Description : This function randomly bi-partitions the core sequence passed to it.
     """
-    pass
+    j = k = 0
+    random.seed(seed_value[indx])
+    
+    for i in range(n):
+        rand = random.randint(0, 5147483647)
+        
+        if rand%2 == 0:
+            if j < n//2:
+                partition[0][j] = core_id[i]
+                j += 1
+            else:
+                partition[1][k] = core_id[i]
+                k += 1
+        else:
+            if k < n//2:
+                partition[1][k] = core_id[i]
+                k += 1
+            else:
+                partition[0][j] = core_id[i]
+                j += 1
+                
+        
 
 
 def KL(
@@ -122,9 +146,101 @@ def KL(
 
     Description : This function is the implementation of the KL bi-patitioning algorithm. Firstly, it calls random_partition() to generate 2 random partitions and then performs swapping according to KL algorithm. The partitions thus generated are returned.
     """
-    pass
+    random_partition(core_id, n, indx, partition)
+    
+    
+    d_a = d_b = [0.0] * (n//2)
+    gain_k = sum_gain_k = [0.0] * (n//2)
+    
+    temp_a = [partition[0][i] for i in range(n//2)]
+    temp_b = [partition[1][i] for i in range(n//2)]
+    
+    counter = flag = 0
+    old_maximum = float('inf')
+    
+    global init_comm_cut_cost
+    
+    if init_comm_cut_cost == 0:
+        init_comm_cut_cost = partition_cost(graph, temp_a, temp_b, n // 2)
+        
+    while True:
+        counter = 0
+        
+        while counter < n//2 : 
+            for j in range(counter, n//2):
+                int_cost_a = ext_cost_a = int_cost_b = ext_cost_b = 0.0
+                
+                for i in range(n//2):
+                    int_cost_a += graph[temp_a[j]][temp_a[i]]
+                    ext_cost_a += graph[temp_a[j]][temp_b[i]]
+                    
+                    int_cost_b += graph[temp_b[j]][temp_b[i]]
+                    ext_cost_b += graph[temp_b[j]][temp_a[i]]
+                    
+                d_a[j] = ext_cost_a - int_cost_a
+                d_b[j] = ext_cost_b - int_cost_b
 
+            gain = -float('inf')
+                
+            for i in range(counter, n//2):
+                for j in range(counter, n//2):
+                    temp = (d_a[i] + d_b[j] - graph[temp_a[i]][temp_b[j]] - graph[temp_b[j]][temp_a[i]])/init_comm_cut_cost
+                    if temp > gain:
+                        gain = temp
+                        new_i, new_j = i, j
+                    
+                gain_k[counter] = gain
+                counter += 1
+                swap_a, swap_b = temp_a[new_i], temp_b[new_j]
+                    
+                for i in range(new_i, counter - 1, -1):
+                    temp_a[i] = temp_a[i - 1]
+                
+                temp_a[counter - 1] = swap_b
+                    
+                for i in range(new_j, counter - 1, -1):
+                    temp_b[i] = temp_b[i - 1]
+                    
+                temp_b[counter - 1] = swap_a
+                
+        for i in range(counter):
+            sum_gain_k[i] = 0.0
+            for j in range(i, -1, -1):
+                sum_gain_k[i] += gain_k[j]
+                
+        maxi = sum_gain_k[0]
+        k = 0
+        for i in range(counter):
+            if sum_gain_k[i] > maxi:
+                maxi = sum_gain_k[i]
+                k = i
 
+        for i in range(k + 1):
+            for j in range(n // 2):
+                if temp_b[i] == partition[0][j]:
+                    partition[0][j] = temp_a[i]
+
+                if temp_a[i] == partition[1][j]:
+                    partition[1][j] = temp_b[i]
+                
+        temp_a =[partition[0][i] for i in range(n//2)]
+        temp_b = [partition[1][i] for i in range(n//2)]
+                
+        if flag == 1:
+            return
+                
+        if old_maximum <= maxi:
+            flag = 1
+                
+        old_maximum = maxi
+                
+        if maxi < 0 or k >= (n//2 - 1):
+            break
+        
+    return
+                        
+                        
+            
 def partition_cost(
     graph: List[List[float]], A: List[int], B: List[int], n: int
 ) -> float:
