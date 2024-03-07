@@ -1,7 +1,9 @@
+import logging
 import math
 from typing import Dict, List, Optional, Union
+
 from header import *
- 
+
 # Header definitions
 TILE_WIDTH = 0.0025	#IN DIRECTION OF COLUMN
 TILE_HEIGHT = 0.0025	#IN DIRECTION OF ROWS
