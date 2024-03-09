@@ -205,7 +205,64 @@ def main(argc: int, argv: List[str]) -> int:
             "Use: python3 main_comd1.py input_graph.txt no_of_runs is_distributive num_layers"
         )
         exit(0)
-    pass
+    
+    fptr = open("final_" + sys.argv[1], 'a')
+    fptr1 = open("final_comma_" + sys.argv[1], 'a')
+    fptr1.write("W,CC,Variance,Peak_Temp\n")
+    output= [0.0]*2 
+
+    if len(sys.argv) == 5:
+        NUM_LAYERS = int(sys.argv[4])
+        logging.info("Number of layers is " + str(NUM_LAYERS))
+        
+    graph = Read_graph(sys.argv[1], sys.argv[3])
+    logging.info("Read graph completed.")
+    
+    result_table = [0.0, 0.0]
+    
+    initialize_add()
+    no_cuts = int(sys.argv[2])
+    
+    save_partition = [0] * no_cuts
+    seed_value = [0] * no_cuts
+    
+    for j in range(no_cuts):
+        save_partition[j] = [0] * graph_info.No_nodes
+
+    core_id = [0] * graph_info.No_nodes
+    partition = [None, None]
+    partition[0] = [0] * (graph_info.No_nodes // 2)
+    partition[1] = [0] * (graph_info.No_nodes // 2)
+
+    for j in range(graph_info.No_nodes):
+        core_id[j] = j
+
+    result_table[1] = 999999999
+    i = 0
+    flag = 0
+
+    
+    for _ in range(NO_OF_RUN):
+        flag = 0
+        for j in range(no_cuts):
+            seed_value[j] = random.randint(0, 5147483647)
+        
+        perform_KL(sys.argv, graph, output)
+        
+        if result_table[1] > output[1]:
+            flag = 1
+            
+        if flag == 1:
+            result_table[0] = output[0]
+            result_table[1] = output[1]
+        
+        logging.info("Finished the run " + str(_))
+        
+    fptr1.write(f"{result_table[0]},{result_table[1]}\n")
+    fptr.close()
+    fptr1.close()
+        
+    
 
 
 def perform_KL(
@@ -221,7 +278,7 @@ def perform_KL(
             
     Description : This function is the controlling function of all the partitioning, mapping, cost and thermal (hotspot) functions. Since the results from K-L algorithm depend on initial cut, a number of initial random cuts are generated and then K-L algorithm is called to generate the result for each initial cut. Each of these result is saved and the best result is found out. The best result is returned to the main() function.
     """
-    pass
+    t1 = time.process_time()
 
 
 def map_nodes(
@@ -553,4 +610,14 @@ def flipd(
     nodes: int,
     local: int,
 ) -> float:
+    
+    cost_arr = []
+    if local == 1:
+        cost_arr[0] = best_cost = cost_local(final_partition_core, G, nodes, k - t, k + t)
+    elif local == 0:
+        cost_arr[0] = best_cost = cost(final_partition_core, G, nodes)
+    
+    
+
+
     return 0.0
