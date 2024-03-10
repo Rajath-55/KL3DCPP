@@ -14,6 +14,20 @@ logging.basicConfig(
     level=logging.DEBUG,
 )
 
+# CAVEAT: q directly is not being updated. Using a class for this purpose.
+class new_q:
+
+    def __init__(self):
+        self.q = 0
+    
+    def update(self, val):
+        self.q = val
+    
+    def get(self):
+        return self.q
+    
+
+q = new_q()
 
 # Header definitions
 MAX = 1000000
@@ -59,36 +73,38 @@ def KL_partition(
     Description : This function is the control function for KL() partitioning function. It recursively calls itself till the smallest partition size is reached. The smallest size of partition is controlled by 'lambda' which is '2' for MoT and Mesh and '4' for BFT. It takes a number of random cuts for each partition by calling KL() and calculates the cut cost. The partitioning with the best cut cost is accepted and passed for further partitioning
     """
     best_cost, cut = sys.maxsize, 0.0
+    global header_q
 
     if n <= LAMBDA:
         # Lambda = 2 for MoT and Mesh, while Lambda = 4 for BFT
         # Lambda represents the smallest partitions size.
         for i in range(LAMBDA):
-            final_partition_core[header_q] = core_id[i]
-            header_q += 1
+            # print("q = " +str(q.get()))
+            final_partition_core[index][q.get()] = core_id[i]
+            q.update(q.get() + 1)
         return
 
-    partition = [[0 for _ in range(n / 2)], [0 for _ in range(n / 2)]]
-    best_partition = [[0 for _ in range(n / 2)], [0 for _ in range(n / 2)]]
+    partition = [[0 for _ in range(n // 2)], [0 for _ in range(n // 2)]]
+    best_partition = [[0 for _ in range(n // 2)], [0 for _ in range(n // 2)]]
 
     for i in range(
-        n / 4
+        n // 4
     ):  # number of random cuts reduced to n/4. Can be changed according to requirement
         KL(index, graph, core_id, n, partition)
 
-        cut = partition_cost(graph, partition[0], partition[1], n / 2)
+        cut = partition_cost(graph, partition[0], partition[1], n // 2)
 
         if cut < best_cost:
             best_cost = cut
-            for j in range(n / 2):
+            for j in range(n // 2):
                 best_partition[0][j] = partition[0][j]
                 best_partition[1][j] = partition[1][j]
 
     del partition
-    print(f"\nbest cost={best_cost}\n")
+    logging.info(f"best cost={best_cost}")
 
-    KL_partition(index, graph, n / 2, best_partition[0], final_partition_core)
-    KL_partition(index, graph, n / 2, best_partition[1], final_partition_core)
+    KL_partition(index, graph, n // 2, best_partition[0], final_partition_core)
+    KL_partition(index, graph, n // 2, best_partition[1], final_partition_core)
 
 
 def random_partition(

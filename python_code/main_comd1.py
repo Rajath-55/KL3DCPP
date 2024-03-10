@@ -7,15 +7,14 @@ TILE_WIDTH = 0.0025  # IN DIRECTION OF COLUMN
 TILE_HEIGHT = 0.0025  # IN DIRECTION OF ROWS
 NO_OF_RUN = 5
 NUM_LAYERS = 2
-# no_particle = 100
 
 
 class GraphInfo:
     def __init__(self) -> None:
-        self.No_nodes = 0
+        self.no_nodes = 0
         self.actual_no_of_nodes = 0
         self.rows = 0
-        self.colums = 0
+        self.columns = 0
         self.edges = 0
 
 
@@ -73,11 +72,11 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
     temp_pow = math.log(nodes) / math.log(2.0)
     split1 = math.floor(temp_pow / 2.0)
     split2 = math.ceil(temp_pow / 2.0)
-    graph_info.No_nodes = nodes
+    graph_info.no_nodes = nodes
     graph_info.rows = int(pow(2, split1))
-    graph_info.colums = int(pow(2, split2))
+    graph_info.columns = int(pow(2, split2))
 
-    logging.info(f"rows {graph_info.rows}, cols {graph_info.colums}")
+    logging.info(f"rows {graph_info.rows}, cols {graph_info.columns}")
     bandwidth_graph_pointer.close()
     distri = int(dist)
 
@@ -127,7 +126,7 @@ Description : This initializes the Global addresses for a Mesh topology for give
 
 
 def initialize_add() -> None:
-    nodes = graph_info.No_nodes
+    nodes = graph_info.no_nodes
     logging.info(f"Nodes / Number of layers = {nodes//NUM_LAYERS}")
     if nodes%NUM_LAYERS != 0:
         logging.critical(f"Nodes are not getting evenly distributed over 3D layers. Number of nodes = {nodes}, number of layers = {NUM_LAYERS}. Exiting...")
@@ -176,7 +175,7 @@ def initialize_add() -> None:
             c += 1
         ht_add[i] = c - 1
 
-    address.colum = col_add
+    address.column = col_add
     address.row = row_add
     address.height = ht_add
 
@@ -202,7 +201,8 @@ ex.: 	./a.out Graph4.txt 100 0
 
 def main(argv: List[str]) -> int:
     global NUM_LAYERS
-    curr_time = time.process_time()
+    curr_time = time.time()
+    random.seed(curr_time)
 
     if len(argv) < 2:
         logging.critical(
@@ -231,18 +231,17 @@ def main(argv: List[str]) -> int:
     seed_value = [0] * no_cuts
     
     for j in range(no_cuts):
-        save_partition[j] = [0] * graph_info.No_nodes
+        save_partition[j] = [0] * graph_info.no_nodes
 
-    core_id = [0] * graph_info.No_nodes
+    core_id = [0] * graph_info.no_nodes
     partition = [None, None]
-    partition[0] = [0] * (graph_info.No_nodes // 2)
-    partition[1] = [0] * (graph_info.No_nodes // 2)
+    partition[0] = [0] * (graph_info.no_nodes // 2)
+    partition[1] = [0] * (graph_info.no_nodes // 2)
 
-    for j in range(graph_info.No_nodes):
+    for j in range(graph_info.no_nodes):
         core_id[j] = j
 
     result_table[1] = 999999999
-    i = 0
     flag = 0
 
     
@@ -283,6 +282,103 @@ def perform_KL(
     Description : This function is the controlling function of all the partitioning, mapping, cost and thermal (hotspot) functions. Since the results from K-L algorithm depend on initial cut, a number of initial random cuts are generated and then K-L algorithm is called to generate the result for each initial cut. Each of these result is saved and the best result is found out. The best result is returned to the main() function.
     """
     t1 = time.process_time()
+    global header_q
+    core_id = None
+    final_partition_core = None
+    actual_no_of_nodes = nodes = 0
+
+    st1 = "RESULTS628.txt"
+    st2 = "KL2Dmap.txt"
+    st3 = "KL2Dpir.txt"
+    fp = open(st1, 'a')
+    # fp1 = open(st2, 'a')
+    # fp2 = open(st3, 'a')
+
+
+    nodes=graph_info.no_nodes
+    actual_no_of_nodes=graph_info.actual_no_of_nodes
+    distri = int(sys.argv[3])
+    core_id = [0] * nodes
+    for i in range(nodes):
+        core_id[i] = i
+        # print(core_id[i])
+
+    partition = [None, None]
+    partition[0] = [0] * (nodes // 2)
+    partition[1] = [0] * (nodes // 2)
+    init = int(sys.argv[2]) 
+
+    final_partition_core = [0] * init 
+    for i in range(init):
+        final_partition_core[i] = [0] * nodes
+
+    rask = 0.0
+
+    for i in range(init):
+        KL(i, netlist, core_id, nodes, partition)
+        
+        # Call KL_Partition routine, on two halves
+        KL_partition(i, netlist, nodes // 2, partition[0], final_partition_core)
+        KL_partition(i, netlist, nodes // 2, partition[1], final_partition_core)
+
+        q.update(0)
+        logging.info(q.get())
+
+        rask = cost(final_partition_core[i], netlist, nodes)
+        logging.info("Rask = " + str(rask))
+
+        for j in range(0, nodes, 2):
+            fp.write(f"{final_partition_core[i][j]+1} {final_partition_core[i][j+1]+1}\t")
+        
+        fp.write(f"\n{i}\n{rask}\n\n")
+
+    best_cost = 2147483647 # not the same as cpp
+    cost_f = [0.0] * init
+    best = 0
+    temp = 0.0
+
+    for i in range(init):
+        cost_f[i] = map_nodes(nodes, final_partition_core[i], netlist)
+        
+    if distri == 1:
+        fp.write(f"\nDistributive\t{argv[1]}\tno. of cores= {actual_no_of_nodes}\tno. of cuts {init}\n")
+        logging.info(f"Distributive\t{argv[1]}\tno. of cores= {actual_no_of_nodes}")
+    else:
+        fp.write(f"\n{argv[1]}\tno. of cores= {actual_no_of_nodes}\tno. of cuts {init}\n")
+        logging.info(f"{argv[1]}\tno. of cores= {actual_no_of_nodes}")
+
+    logging.info("Final Partition core: ")
+    logging.info(str(final_partition_core))
+    # TODO: If needed, print to console the final partition core as it were - (i,i+1) tuple.
+
+    for j in range(init):
+        for i in range(0, nodes, 2):
+            fp.write(f"{final_partition_core[j][i] + 1} {final_partition_core[j][i + 1] + 1}\t")
+
+        cost_f[j] = cost(final_partition_core[j], netlist, nodes)
+        temp = cost_f[j]
+
+        if temp < best_cost:
+            best_cost = temp
+            best = j
+
+        fp.write(f"\n{j}\n{cost_f[j]}\n\n")
+
+    fp.write(f"\n\n***** best cost={float(cost_f[best])}\nbest ={best}")
+    logging.info("BEST COST = " + str(cost_f[best]))
+    output[0] = cost(final_partition_core[best], netlist, nodes)
+    logging.info("Cost in CC : " + str(output[0]))
+    output[1] = cost_f[best]
+    logging.info("\n\n" + str(graph_info.no_nodes) +  "\t" + str(graph_info.rows) +  "\t" +  str(graph_info.columns) + "\n")
+    t2 = time.process_time()
+    diff = t2 - t1 #CLOCKS_PER_SEC
+    logging.info("Completed in " + str(diff))
+
+    logging.info("FINISHED")    
+
+                
+
+
 
 
 def map_nodes(
@@ -323,7 +419,7 @@ def map_nodes(
     while 1:
         iterative_improvement(graph, temp_final_partition_core, nodes, 0)
         temp = cost(temp_final_partition_core, graph, nodes)
-        print(f"\n Cost : {best_cost[3]}")
+        logging.info(f"\n Cost : {best_cost[3]}")
 
         if temp <= best_cost[3]:
             best_cost[0] = best_cost[1]
