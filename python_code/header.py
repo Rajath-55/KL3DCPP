@@ -6,9 +6,10 @@ import logging, sys
 
 # Logging info
 logging.basicConfig(
-    format="%(asctime)s %(levelname)s:%(message)s",
+    format="%(asctime)s %(levelname)s: %(message)s",
     datefmt="%m/%d/%Y %I:%M:%S %p",
     filename="info.log",
+    filemode = 'w',
     encoding="utf-8",
     level=logging.DEBUG,
 )

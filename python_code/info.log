@@ -1,0 +1,13 @@
+03/10/2024 07:46:06 PM INFO: Number of layers is 4
+03/10/2024 07:46:06 PM INFO: Check number of nodes = 4.0, Nearest power of 2 = 4
+03/10/2024 07:46:06 PM INFO: rows 4, cols 4
+03/10/2024 07:46:06 PM INFO: Read graph completed.
+03/10/2024 07:46:06 PM INFO: Nodes / Number of layers = 4
+03/10/2024 07:46:06 PM INFO: Row addressing - [0, 0, 1, 1, 0, 0, 1, 1, 2, 2, 3, 3, 2, 2, 3, 3]
+03/10/2024 07:46:06 PM INFO: Column addressing - []
+03/10/2024 07:46:06 PM INFO: Height addressing - [0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3]
+03/10/2024 07:46:06 PM INFO: Finished the run 0
+03/10/2024 07:46:06 PM INFO: Finished the run 1
+03/10/2024 07:46:06 PM INFO: Finished the run 2
+03/10/2024 07:46:06 PM INFO: Finished the run 3
+03/10/2024 07:46:06 PM INFO: Finished the run 4

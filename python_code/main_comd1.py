@@ -38,17 +38,18 @@ Since K-L is a bipartitioning algorithm, in the graphs where the no. of nodes is
 """
 
 
-def Read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
+def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
     bandwidth_graph_pointer = open(name, "r+")
     nodes = int(bandwidth_graph_pointer.readline().strip())
     graph_info.actual_no_of_nodes = nodes
     actual_no_of_nodes = nodes
+    new_nodes = nodes
 
     check_power_of_2_nodes = math.log(actual_no_of_nodes) / math.log(2.0)
     power_of_2_nearest = int(check_power_of_2_nodes)
 
     logging.info(
-        f"Check number of nodes {check_power_of_2_nodes} Nearest power of 2 {power_of_2_nearest}"
+        f"Check number of nodes = {check_power_of_2_nodes}, Nearest power of 2 = {power_of_2_nearest}"
     )
 
     if power_of_2_nearest > float(check_power_of_2_nodes):
@@ -127,13 +128,17 @@ Description : This initializes the Global addresses for a Mesh topology for give
 
 def initialize_add() -> None:
     nodes = graph_info.No_nodes
+    logging.info(f"Nodes / Number of layers = {nodes//NUM_LAYERS}")
+    if nodes%NUM_LAYERS != 0:
+        logging.critical(f"Nodes are not getting evenly distributed over 3D layers. Number of nodes = {nodes}, number of layers = {NUM_LAYERS}. Exiting...")
+        exit(0)
     global a
-    ht_add = []
-    row_add = []
-    col_add = []
+    ht_add = [0 for _ in range(nodes)]
+    row_add = [0 for _ in range(nodes)]
+    col_add = [0 for _ in range(nodes)]
     log_of_nodes = math.log(float(nodes)) / math.log(2.0)
     n = int(log_of_nodes)
-    temp_add = [[0 for _ in range(n - 1)] for _ in range(n - 1)]
+    temp_add = [[0 for _ in range(nodes)] for _ in range(n - 1)]
 
     for i in range(1, n):
         c = 0
@@ -166,7 +171,6 @@ def initialize_add() -> None:
             count += 1
 
     c = 0
-    logging.info(f"{nodes//NUM_LAYERS}")
     for i in range(nodes):
         if i % (nodes // NUM_LAYERS) == 0:
             c += 1
@@ -196,7 +200,7 @@ ex.: 	./a.out Graph4.txt 100 0
 """
 
 
-def main(argc: int, argv: List[str]) -> int:
+def main(argv: List[str]) -> int:
     global NUM_LAYERS
     curr_time = time.process_time()
 
@@ -215,7 +219,7 @@ def main(argc: int, argv: List[str]) -> int:
         NUM_LAYERS = int(sys.argv[4])
         logging.info("Number of layers is " + str(NUM_LAYERS))
         
-    graph = Read_graph(sys.argv[1], sys.argv[3])
+    graph = read_graph(sys.argv[1], sys.argv[3])
     logging.info("Read graph completed.")
     
     result_table = [0.0, 0.0]
@@ -307,9 +311,9 @@ def map_nodes(
 
     # global phase
 
-    Final_Global_best_cost = cost(final_partition_core, graph, nodes)
+    final_global_best_cost = cost(final_partition_core, graph, nodes)
 
-    for i in nodes:
+    for i in range(nodes):
         temp_final_partition_core[i] = final_partition_core[i]
 
     iterative_improvement(graph, temp_final_partition_core, nodes, 0)
@@ -337,15 +341,15 @@ def map_nodes(
         ):
             break
 
-    if Final_Global_best_cost > best_cost[3]:
-        Final_Global_best_cost = best_cost[3]
+    if final_global_best_cost > best_cost[3]:
+        final_global_best_cost = best_cost[3]
         for i in nodes:
             final_partition_core[i] = temp_final_partition_core[i]
 
-    Final_Global_best_cost = cost(final_partition_core, graph, nodes)
+    final_global_best_cost = cost(final_partition_core, graph, nodes)
 
     del temp_final_partition_core
-    return Final_Global_best_cost
+    return final_global_best_cost
 
 
 
@@ -612,6 +616,7 @@ def flipd(
 ) -> float:
     
     cost_arr = []
+    best_cost = float('inf')
     if local == 1:
         cost_arr[0] = best_cost = cost_local(final_partition_core, G, nodes, k - t, k + t)
     elif local == 0:
@@ -620,4 +625,9 @@ def flipd(
     
 
 
+
     return 0.0
+
+
+if __name__ == "__main__":
+    main(sys.argv)
