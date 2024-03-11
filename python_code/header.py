@@ -3,6 +3,7 @@ from typing import List, Dict, Union, Optional
 import math
 import time
 import logging, sys 
+import numpy as np
 
 # Logging info
 logging.basicConfig(

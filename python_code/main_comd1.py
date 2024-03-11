@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Union
+from typing import List, Union
 
 from header import *
 
@@ -377,10 +377,6 @@ def perform_KL(
     logging.info("FINISHED")    
 
                 
-
-
-
-
 def map_nodes(
     nodes: int, final_partition_core: List[int], graph: List[List[float]]
 ) -> float:
@@ -699,9 +695,136 @@ def flip(
             
     Description : This function takes a partition and rearranges the core within it and checks for cost improvements. The arrangement with the lowest cost is returned.
     """
-    return 0.0
+    cost_arr = [0.0] * 4
+    best_cost = avg_row = avg_col = avg_ht = difference = 0.0
+    if local == 1:
+        cost_arr[0] = best_cost = cost_local(final_partition_core, G, nodes, k - t, k + t)
+    else:
+        cost_arr[0] = best_cost = cost(final_partition_core, G, nodes)
+    
+    temp_final_partition_core = np.zeros((4, nodes), dtype = int)
+    temp_row = np.zeros(nodes, dtype = int)
+    temp_col = np.zeros(nodes, dtype = int)
+    temp_height = np.zeros(nodes, dtype = int)
+    
+    for j in range(nodes):
+        temp_row[j] = address.row[j]
+        temp_col[j] = address.column[j]
+        temp_height[j] = address.height[j]
+        temp_final_partition_core[0][j] = final_partition_core[j]
+        
+    min_row = address.row[k]
+    min_col = address.column[k]
+    max_row = address.row[k]
+    max_col = address.column[k]
+    min_height = address.height[k]
+    max_height = address.height[k]
+    
+    for w in range(k, k + t):
+        if address.row[w] > max_row:
+            max_row = address.row[w]
+        
+        if address.column[w] > max_col:
+            max_col = address.column[w]
 
+        if address.height[w] > max_height:
+            max_height = address.height[w]
 
+    avg_col = (max_col + min_col)/2.0
+    avg_row = (max_row + min_row)/2.0
+    avg_ht = (max_height + min_height)/2.0
+    
+    # Flip along horizontal axis.
+    difference = (max_row - min_row)/2.0
+    shift = math.ceil(difference)
+    
+    for w in range(k, k + t):
+        if address.row[w] >= avg_row:
+            address.row[w] = address.row[w] - shift
+        elif address.row[w] < avg_row:
+            address.row[w] = address.row[w] + shift
+        
+    for w in range(nodes):
+        for j in range(nodes):
+            if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
+                temp_final_partition_core[1][w] = final_partition_core[j]
+                break
+    
+    for j in range(nodes):
+        address.row[j] = temp_row[j]
+        address.column[j] = temp_col[j]
+        address.height[j] = temp_height[j]
+
+    if local == 1:
+        cost_arr[1] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
+    else:
+        cost_arr[1] = cost(temp_final_partition_core[1], G, nodes)
+        
+    # Flip along vertical axis
+    difference = (max_col - min_col)/2.0
+    shift = math.ceil(difference)
+    
+    for w in range(k, k + t):
+        if address.column[w] >= avg_col:
+            address.column[w] = address.column[w] - shift
+        elif address.column[w] < avg_col:
+            address.column[w] = address.column[w] - shift
+
+    for w in range(nodes):
+        for j in range(nodes):
+            if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
+                temp_final_partition_core[2][w] = final_partition_core[j]
+                break
+    
+    for j in range(nodes):
+        address.row[j] = temp_row[j]
+        address.column[j] = temp_col[j]
+        address.height[j] = temp_height[j]
+    
+    if local == 1:
+        cost_arr[2] = cost_local(temp_final_partition_core[2], G, nodes, k - t, k + t)
+    else:
+        cost_arr[2] = cost(temp_final_partition_core[2], G, nodes)
+        
+    # Flip again along horizontal axis:
+    difference = (max_row - min_row)/2.0
+    shift = math.ceil(difference)
+    
+    for w in range(k, k + t):
+        if address.row[w] >= avg_row:
+            address.row[w] = address.row[w] - shift
+        elif address.row[w] < avg_row:
+            address.row[w] = address.row[w] + shift
+        
+    for w in range(nodes):
+        for j in range(nodes):
+            if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
+                temp_final_partition_core[3][w] = final_partition_core[j]
+                break
+    
+    for j in range(nodes):
+        address.row[j] = temp_row[j]
+        address.column[j] = temp_col[j]
+        address.height[j] = temp_height[j]
+
+    if local == 1:
+        cost_arr[3] = cost_local(temp_final_partition_core[3], G, nodes, k - t, k + t)
+    else:
+        cost_arr[3] = cost(temp_final_partition_core[3], G, nodes) 
+    
+    # Finding the best partitioning:
+    for j in range(1, 4):
+        if cost_arr[j] < best_cost:
+            best = j
+            best_cost = cost_arr[j]
+    
+    # Finalizing the results:
+    for j in range(nodes):
+        final_partition_core[j] = temp_final_partition_core[best][j]
+
+    return best_cost
+        
+        
 def flipd(
     G: List[List[float]],
     final_partition_core: List[int],
@@ -711,18 +834,138 @@ def flipd(
     local: int,
 ) -> float:
     
-    cost_arr = []
-    best_cost = float('inf')
+    cost_arr = [0.0] * 4
+    best_cost = avg_row = avg_col = avg_ht = difference = 0.0
     if local == 1:
         cost_arr[0] = best_cost = cost_local(final_partition_core, G, nodes, k - t, k + t)
-    elif local == 0:
+    else:
         cost_arr[0] = best_cost = cost(final_partition_core, G, nodes)
     
+    temp_final_partition_core = np.zeros((4, nodes), dtype = int)
+    temp_row = np.zeros(nodes, dtype = int)
+    temp_col = np.zeros(nodes, dtype = int)
+    temp_height = np.zeros(nodes, dtype = int)
+    
+    for j in range(nodes):
+        temp_row[j] = address.row[j]
+        temp_col[j] = address.column[j]
+        temp_height[j] = address.height[j]
+        temp_final_partition_core[0][j] = final_partition_core[j]
+        
+    min_row = address.row[k]
+    min_col = address.column[k]
+    max_row = address.row[k]
+    max_col = address.column[k]
+    min_height = address.height[k]
+    max_height = address.height[k]
+    
+    for w in range(k, k + t):
+        if address.row[w] > max_row:
+            max_row = address.row[w]
+        
+        if address.column[w] > max_col:
+            max_col = address.column[w]
+
+        if address.height[w] > max_height:
+            max_height = address.height[w]
+
+    avg_col = (max_col + min_col)/2.0
+    avg_row = (max_row + min_row)/2.0
+    avg_ht = (max_height + min_height)/2.0    
+
+    
+    # Flip along level axis:
+    difference = (max_height - min_height)/2.0
+    shift = math.ceil(difference)
+
+    for w in range(k, k + t):
+        if address.height[w] >= avg_ht:
+            address.height[w] = address.height[w] - shift
+        else:
+            address.height[w] = address.height[w] + shift
+    
+    for w in range(nodes):
+        for j in range(nodes):
+            if temp_row[w] == address.row[w] and temp_col[w] == address.column[w] and temp_height[w] == address.height[w]:
+                temp_final_partition_core[1][w] = final_partition_core[j]
+                break
+
+    for j in range(nodes):
+        address.row[j] = temp_row[j]
+        address.column[j] = temp_col[j]
+        address.height[j] = temp_height[j]
+
+    if local == 1:
+        cost_arr[1] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
+    else:
+        cost_arr[1] = cost(temp_final_partition_core[1], G, nodes)  
+
+    # Flip along horizontal axis:
+
+    difference = (max_row - min_row)/2.0
+    shift = math.ceil(difference)
+    
+    for w in range(k, k + t):
+        if address.row[w] >= avg_row:
+            address.row[w] = address.row[w] - shift
+        elif address.row[w] < avg_row:
+            address.row[w] = address.row[w] + shift
+        
+    for w in range(nodes):
+        for j in range(nodes):
+            if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
+                temp_final_partition_core[2][w] = final_partition_core[j]
+                break
+    
+    for j in range(nodes):
+        address.row[j] = temp_row[j]
+        address.column[j] = temp_col[j]
+        address.height[j] = temp_height[j]
+
+    if local == 1:
+        cost_arr[2] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
+    else:
+        cost_arr[2] = cost(temp_final_partition_core[1], G, nodes)
+        
+    # Flip along level axis again:
+    
+    difference = (max_height - min_height)/2.0
+    shift = math.ceil(difference)
+
+    for w in range(k, k + t):
+        if address.height[w] >= avg_ht:
+            address.height[w] = address.height[w] - shift
+        else:
+            address.height[w] = address.height[w] + shift
+    
+    for w in range(nodes):
+        for j in range(nodes):
+            if temp_row[w] == address.row[w] and temp_col[w] == address.column[w] and temp_height[w] == address.height[w]:
+                temp_final_partition_core[3][w] = final_partition_core[j]
+                break
+
+    for j in range(nodes):
+        address.row[j] = temp_row[j]
+        address.column[j] = temp_col[j]
+        address.height[j] = temp_height[j]
+
+    if local == 1:
+        cost_arr[3] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
+    else:
+        cost_arr[3] = cost(temp_final_partition_core[1], G, nodes)  
     
 
+    # Find the best partitioning
+    for j in range(1, 4):
+        if cost_arr[j] < best_cost:
+            best = j
+            best_cost = cost_arr[j]
+            
+    # Finalizing results:
+    for j in range(nodes):
+        final_partition_core[j] = temp_final_partition_core[best][j]
 
-
-    return 0.0
+    return best_cost
 
 
 if __name__ == "__main__":
