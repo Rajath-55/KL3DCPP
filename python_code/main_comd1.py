@@ -27,13 +27,13 @@ save_partition = [[]]
 seed_value = []
 
 """
-Function Read_graph() 
-Inputs: name => char array containing the name of the input graph_info 
-        dist => control variable telling if the placement should be Distributive or Non-Distributive 
-Output: netlist => 2D adjacency matrix holding float values 
-        
-Description : Function reads the input graph and saves the bandwidth requirements of cores as a 2D adjacency matrix (netlist). 
-Since K-L is a bipartitioning algorithm, in the graphs where the no. of nodes is not a power of 2, dummy nodes are added. The communication bandwidth between these dummy nodes and the actual nodes is set to be zero, while the communication bandwidth between dummy nodes depends on the user. The user is given 2 choices in the type of placement he wants namely, Distributed(1) and Non-Distributed(0). For Distributed type placement the communication bandwidth between the dummy nodes is taken to be zero, while for Non-Distributed type placement the communication bandwith between dummy nodes is taken to be INFINITE, ie. a very large number defined as "MAX". The function also saves the different attributes of the graph in a global structure. 
+Function Read_graph()
+Inputs: name => char array containing the name of the input graph_info
+        dist => control variable telling if the placement should be Distributive or Non-Distributive
+Output: netlist => 2D adjacency matrix holding float values
+
+Description : Function reads the input graph and saves the bandwidth requirements of cores as a 2D adjacency matrix (netlist).
+Since K-L is a bipartitioning algorithm, in the graphs where the no. of nodes is not a power of 2, dummy nodes are added. The communication bandwidth between these dummy nodes and the actual nodes is set to be zero, while the communication bandwidth between dummy nodes depends on the user. The user is given 2 choices in the type of placement he wants namely, Distributed(1) and Non-Distributed(0). For Distributed type placement the communication bandwidth between the dummy nodes is taken to be zero, while for Non-Distributed type placement the communication bandwith between dummy nodes is taken to be INFINITE, ie. a very large number defined as "MAX". The function also saves the different attributes of the graph in a global structure.
 """
 
 
@@ -117,11 +117,11 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
 
 
 """
-Function initialize_add() 
-Inputs: NO INPUTS 
-Output: NO OUTPUTS 
-        
-Description : This initializes the Global addresses for a Mesh topology for given number of nodes. It also generates the partition id reference table according to the K-L algorithm. Thus, the K-L algorithm uses this partition ID reference table and does not generate the partition ids at each iteration saving computaional time.  
+Function initialize_add()
+Inputs: NO INPUTS
+Output: NO OUTPUTS
+
+Description : This initializes the Global addresses for a Mesh topology for given number of nodes. It also generates the partition id reference table according to the K-L algorithm. Thus, the K-L algorithm uses this partition ID reference table and does not generate the partition ids at each iteration saving computaional time.
 """
 
 
@@ -186,16 +186,16 @@ def initialize_add() -> None:
 
 
 """
-Function main() 
-Inputs: argc => number of command line inputs 
-          argv => array of strings ie. 2D array of charactres, it contains the command line inputs. argv[1] holds the name of input graph file, argv[2] holds the initial number of cuts, argv[3] holds if the placement is to be Distributive(1) or Non-Distributive(0) 
-Output: NO OUTPUTS 
-        
+Function main()
+Inputs: argc => number of command line inputs
+          argv => array of strings ie. 2D array of charactres, it contains the command line inputs. argv[1] holds the name of input graph file, argv[2] holds the initial number of cuts, argv[3] holds if the placement is to be Distributive(1) or Non-Distributive(0)
+Output: NO OUTPUTS
+
 Description : Topmost function. Controls all the other functions and saves the results
- 
+
 NOTE : FOR RUNNING THE PROGRAM THE INPUT GRAPHS MUST BE IN THE SAME FOLDER AS THE MAIN AND HEADER FILES. THE WAY OF COMMAND LINE SEQUENCE FOR EXECUTION IS AS FOLLOWS:
 ./a.out <Graph name> <initial number of cuts> <Distributive(1)/Non-Distributive(0)>
-ex.: 	./a.out Graph4.txt 100 0  		
+ex.: 	./a.out Graph4.txt 100 0
 """
 
 
@@ -209,27 +209,27 @@ def main(argv: List[str]) -> int:
             "Use: python3 main_comd1.py input_graph.txt no_of_runs is_distributive num_layers"
         )
         exit(0)
-    
+
     fptr = open("final_" + sys.argv[1], 'a')
     fptr1 = open("final_comma_" + sys.argv[1], 'a')
     fptr1.write("W,CC,Variance,Peak_Temp\n")
-    output= [0.0]*2 
+    output= [0.0]*2
 
     if len(sys.argv) == 5:
         NUM_LAYERS = int(sys.argv[4])
         logging.info("Number of layers is " + str(NUM_LAYERS))
-        
+
     graph = read_graph(sys.argv[1], sys.argv[3])
     logging.info("Read graph completed.")
-    
+
     result_table = [0.0, 0.0]
-    
+
     initialize_add()
     no_cuts = int(sys.argv[2])
-    
+
     save_partition = [0] * no_cuts
     seed_value = [0] * no_cuts
-    
+
     for j in range(no_cuts):
         save_partition[j] = [0] * graph_info.no_nodes
 
@@ -244,41 +244,41 @@ def main(argv: List[str]) -> int:
     result_table[1] = 999999999
     flag = 0
 
-    
+
     for _ in range(NO_OF_RUN):
         flag = 0
         for j in range(no_cuts):
             seed_value[j] = random.randint(0, 5147483647)
-        
+
         perform_KL(sys.argv, graph, output)
-        
+
         if result_table[1] > output[1]:
             flag = 1
-            
+
         if flag == 1:
             result_table[0] = output[0]
             result_table[1] = output[1]
-        
+
         logging.info("Finished the run " + str(_))
-        
+
     fptr1.write(f"{result_table[0]},{result_table[1]}\n")
     fptr.close()
     fptr1.close()
-        
-    
+
+
 
 
 def perform_KL(
     argv: List[str], netlist: List[List[float]], output: List[float]
 ) -> None:
     """
-    Function perform_KL() 
-    Inputs: argv[] => holds the command line inputs 
-            netlist => adjacency matrix 
-            output => Since there are multiple outputs this array is passed by reference from the controlling function to save results 
-            Core_Power => float array holding the power values of the cores 
-    Output: output => float array holding results generated by the algorithm. Passed by reference from controlling function 
-            
+    Function perform_KL()
+    Inputs: argv[] => holds the command line inputs
+            netlist => adjacency matrix
+            output => Since there are multiple outputs this array is passed by reference from the controlling function to save results
+            Core_Power => float array holding the power values of the cores
+    Output: output => float array holding results generated by the algorithm. Passed by reference from controlling function
+
     Description : This function is the controlling function of all the partitioning, mapping, cost and thermal (hotspot) functions. Since the results from K-L algorithm depend on initial cut, a number of initial random cuts are generated and then K-L algorithm is called to generate the result for each initial cut. Each of these result is saved and the best result is found out. The best result is returned to the main() function.
     """
     t1 = time.process_time()
@@ -306,9 +306,9 @@ def perform_KL(
     partition = [None, None]
     partition[0] = [0] * (nodes // 2)
     partition[1] = [0] * (nodes // 2)
-    init = int(sys.argv[2]) 
+    init = int(sys.argv[2])
 
-    final_partition_core = [0] * init 
+    final_partition_core = [0] * init
     for i in range(init):
         final_partition_core[i] = [0] * nodes
 
@@ -316,7 +316,7 @@ def perform_KL(
 
     for i in range(init):
         KL(i, netlist, core_id, nodes, partition)
-        
+
         # Call KL_Partition routine, on two halves
         KL_partition(i, netlist, nodes // 2, partition[0], final_partition_core)
         KL_partition(i, netlist, nodes // 2, partition[1], final_partition_core)
@@ -329,7 +329,7 @@ def perform_KL(
 
         for j in range(0, nodes, 2):
             fp.write(f"{final_partition_core[i][j]+1} {final_partition_core[i][j+1]+1}\t")
-        
+
         fp.write(f"\n{i}\n{rask}\n\n")
 
     best_cost = 2147483647 # not the same as cpp
@@ -339,7 +339,7 @@ def perform_KL(
 
     for i in range(init):
         cost_f[i] = map_nodes(nodes, final_partition_core[i], netlist)
-        
+
     if distri == 1:
         fp.write(f"\nDistributive\t{argv[1]}\tno. of cores= {actual_no_of_nodes}\tno. of cuts {init}\n")
         logging.info(f"Distributive\t{argv[1]}\tno. of cores= {actual_no_of_nodes}")
@@ -369,14 +369,14 @@ def perform_KL(
     output[0] = cost(final_partition_core[best], netlist, nodes)
     logging.info("Cost in CC : " + str(output[0]))
     output[1] = cost_f[best]
-    logging.info("\n\n" + str(graph_info.no_nodes) +  "\t" + str(graph_info.rows) +  "\t" +  str(graph_info.columns) + "\n")
+    logging.info("No of nodes : " + str(graph_info.no_nodes) +  " Graph rows : " + str(graph_info.rows) +  " Graph columns: " +  str(graph_info.columns))
     t2 = time.process_time()
     diff = t2 - t1 #CLOCKS_PER_SEC
     logging.info("Completed in " + str(diff))
 
-    logging.info("FINISHED")    
+    logging.info("FINISHED")
 
-                
+
 def map_nodes(
     nodes: int, final_partition_core: List[int], graph: List[List[float]]
 ) -> float:
@@ -396,6 +396,7 @@ def map_nodes(
     ############## Iterative improvement phase for Communication cost improvements ################
 
     # Local phase
+    logging.info("Starting ")
 
     iterative_improvement(
         graph, final_partition_core, nodes, 1
@@ -415,7 +416,7 @@ def map_nodes(
     while 1:
         iterative_improvement(graph, temp_final_partition_core, nodes, 0)
         temp = cost(temp_final_partition_core, graph, nodes)
-        logging.info(f"\n Cost : {best_cost[3]}")
+        logging.info(f"Cost : {best_cost[3]}")
 
         if temp <= best_cost[3]:
             best_cost[0] = best_cost[1]
@@ -449,15 +450,16 @@ def iterative_improvement(
     graph: List[List[float]], final_partition_core: List[int], nodes: int, local: int
 ) -> None:
     """
-    Function iterative_improvement() 
-    Inputs: nodes => number of nodes in the graph 
-            final_partition_core => array holding the final core sequence generated after partitioning 
-            graph => adjacency matrix 
-            local => control varaible which controls the type of pass local or global 
-    Output: final_partition_core => It holds the final core sequence generated after cost improvement 
-            
-    Description : This function takes the core sequence generated from the partitioning and performs iterations for improving communication cost of the mapping. The partitions are selected in pairs, at a level of partitioning, and different arrangements are generated in one of the partition keeping the other fixed. The same procedure is repeated for all the levels of partitioning. 
+    Function iterative_improvement()
+    Inputs: nodes => number of nodes in the graph
+            final_partition_core => array holding the final core sequence generated after partitioning
+            graph => adjacency matrix
+            local => control varaible which controls the type of pass local or global
+    Output: final_partition_core => It holds the final core sequence generated after cost improvement
+
+    Description : This function takes the core sequence generated from the partitioning and performs iterations for improving communication cost of the mapping. The partitions are selected in pairs, at a level of partitioning, and different arrangements are generated in one of the partition keeping the other fixed. The same procedure is repeated for all the levels of partitioning.
     """
+    logging.info("Starting")
 
     n4 = math.log2(nodes)
     n = int(n4)
@@ -482,11 +484,11 @@ def iterative_improvement(
                 temp_row[j] = address.row[j]
                 temp_col[j] = address.column[j]
                 temp_ht[j] = address.height[j]
-            
+
             for k in range(nodes):
                 if a[curr_lvl-1][k] == i+1:
                     break
-            
+
             t = int(math.pow(2, n - curr_lvl))
 
             min_row = address.row[k-t]
@@ -520,13 +522,13 @@ def iterative_improvement(
                         address.height[w] -= shift
                     elif address.height[w] < avg_ht:
                         address.height[w] += shift
-                
+
                 for w in range(nodes):
                     for j in range(nodes):
                         if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[1][w] = final_partition_core[j]
                             break
-                
+
                 for j in range(nodes):
                     address.row[j] = temp_row[j]
                     address.column[j] = temp_col[j]
@@ -583,7 +585,7 @@ def iterative_improvement(
                     address.height[j] = temp_ht[j]
 
                 best_cost[3] = flipd(graph, temp_final_partition_core[3], k, t, nodes, local)
-            
+
             else:
                 #### Flip along horizontal axis ####
 
@@ -610,7 +612,7 @@ def iterative_improvement(
 
                 best_cost[1] = flipd(graph, temp_final_partition_core[1], k, t, nodes, local)
 
-                ##### Flip along vertical axis #### 
+                ##### Flip along vertical axis ####
 
                 difference = (max_col - min_col)/2.0
                 shift = math.ceil(difference)
@@ -626,7 +628,7 @@ def iterative_improvement(
                         if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[2][w] = final_partition_core[j]
                             break
-                
+
                 for j in range(nodes):
                     address.row[j] = temp_row[j]
                     address.column[j] = temp_col[j]
@@ -650,7 +652,7 @@ def iterative_improvement(
                         if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[3][w] = final_partition_core[j]
                             break
-                
+
                 for j in range(nodes):
                     address.row[j] = temp_row[j]
                     address.column[j] = temp_col[j]
@@ -659,20 +661,20 @@ def iterative_improvement(
                 best_cost[3] = flipd(graph, temp_final_partition_core[3], k, t, nodes, local)
 
             ###### Checked all combinations ########
-                
+
                 Global_best = best_cost[0]
                 best_partition = 0
                 for j in range(4):
                     if best_cost[j] < Global_best:
                         Global_best = best_cost[j]
                         best_partition = j
-                
+
                 for j in range(nodes):
                     final_partition_core[j] = temp_final_partition_core[best_partition][j]
 
     del temp_col
     del temp_row
-    del temp_final_partition_core        
+    del temp_final_partition_core
 
 
 def flip(
@@ -684,46 +686,48 @@ def flip(
     local: int,
 ) -> float:
     """
-    Function flip() 
-    Inputs: nodes => number of nodes in the graph 
-            final_partition_core => array holding the final core sequence generated after partitioning 
-            G => adjacency matrix 
-            local => control varaible which controls the type of pass local or global 
+    Function flip()
+    Inputs: nodes => number of nodes in the graph
+            final_partition_core => array holding the final core sequence generated after partitioning
+            G => adjacency matrix
+            local => control varaible which controls the type of pass local or global
             k => start index of the partition under consideration
             t => size of the partition under consideration
-    Output: final_partition_core => It holds the final core sequence generated after cost improvement 
-            
+    Output: final_partition_core => It holds the final core sequence generated after cost improvement
+
     Description : This function takes a partition and rearranges the core within it and checks for cost improvements. The arrangement with the lowest cost is returned.
     """
+    logging.info("Started in flip code")
     cost_arr = [0.0] * 4
     best_cost = avg_row = avg_col = avg_ht = difference = 0.0
     if local == 1:
         cost_arr[0] = best_cost = cost_local(final_partition_core, G, nodes, k - t, k + t)
     else:
         cost_arr[0] = best_cost = cost(final_partition_core, G, nodes)
-    
+
     temp_final_partition_core = np.zeros((4, nodes), dtype = int)
     temp_row = np.zeros(nodes, dtype = int)
     temp_col = np.zeros(nodes, dtype = int)
     temp_height = np.zeros(nodes, dtype = int)
-    
+    logging.info("Reached here in numpy code")
+
     for j in range(nodes):
         temp_row[j] = address.row[j]
         temp_col[j] = address.column[j]
         temp_height[j] = address.height[j]
         temp_final_partition_core[0][j] = final_partition_core[j]
-        
+
     min_row = address.row[k]
     min_col = address.column[k]
     max_row = address.row[k]
     max_col = address.column[k]
     min_height = address.height[k]
     max_height = address.height[k]
-    
+
     for w in range(k, k + t):
         if address.row[w] > max_row:
             max_row = address.row[w]
-        
+
         if address.column[w] > max_col:
             max_col = address.column[w]
 
@@ -733,23 +737,23 @@ def flip(
     avg_col = (max_col + min_col)/2.0
     avg_row = (max_row + min_row)/2.0
     avg_ht = (max_height + min_height)/2.0
-    
+
     # Flip along horizontal axis.
     difference = (max_row - min_row)/2.0
     shift = math.ceil(difference)
-    
+
     for w in range(k, k + t):
         if address.row[w] >= avg_row:
             address.row[w] = address.row[w] - shift
         elif address.row[w] < avg_row:
             address.row[w] = address.row[w] + shift
-        
+
     for w in range(nodes):
         for j in range(nodes):
             if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
                 temp_final_partition_core[1][w] = final_partition_core[j]
                 break
-    
+
     for j in range(nodes):
         address.row[j] = temp_row[j]
         address.column[j] = temp_col[j]
@@ -759,11 +763,11 @@ def flip(
         cost_arr[1] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
     else:
         cost_arr[1] = cost(temp_final_partition_core[1], G, nodes)
-        
+
     # Flip along vertical axis
     difference = (max_col - min_col)/2.0
     shift = math.ceil(difference)
-    
+
     for w in range(k, k + t):
         if address.column[w] >= avg_col:
             address.column[w] = address.column[w] - shift
@@ -775,33 +779,33 @@ def flip(
             if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
                 temp_final_partition_core[2][w] = final_partition_core[j]
                 break
-    
+
     for j in range(nodes):
         address.row[j] = temp_row[j]
         address.column[j] = temp_col[j]
         address.height[j] = temp_height[j]
-    
+
     if local == 1:
         cost_arr[2] = cost_local(temp_final_partition_core[2], G, nodes, k - t, k + t)
     else:
         cost_arr[2] = cost(temp_final_partition_core[2], G, nodes)
-        
+
     # Flip again along horizontal axis:
     difference = (max_row - min_row)/2.0
     shift = math.ceil(difference)
-    
+
     for w in range(k, k + t):
         if address.row[w] >= avg_row:
             address.row[w] = address.row[w] - shift
         elif address.row[w] < avg_row:
             address.row[w] = address.row[w] + shift
-        
+
     for w in range(nodes):
         for j in range(nodes):
             if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
                 temp_final_partition_core[3][w] = final_partition_core[j]
                 break
-    
+
     for j in range(nodes):
         address.row[j] = temp_row[j]
         address.column[j] = temp_col[j]
@@ -810,21 +814,21 @@ def flip(
     if local == 1:
         cost_arr[3] = cost_local(temp_final_partition_core[3], G, nodes, k - t, k + t)
     else:
-        cost_arr[3] = cost(temp_final_partition_core[3], G, nodes) 
-    
+        cost_arr[3] = cost(temp_final_partition_core[3], G, nodes)
+
     # Finding the best partitioning:
     for j in range(1, 4):
         if cost_arr[j] < best_cost:
             best = j
             best_cost = cost_arr[j]
-    
+
     # Finalizing the results:
     for j in range(nodes):
         final_partition_core[j] = temp_final_partition_core[best][j]
 
     return best_cost
-        
-        
+
+
 def flipd(
     G: List[List[float]],
     final_partition_core: List[int],
@@ -833,36 +837,36 @@ def flipd(
     nodes: int,
     local: int,
 ) -> float:
-    
+
     cost_arr = [0.0] * 4
     best_cost = avg_row = avg_col = avg_ht = difference = 0.0
     if local == 1:
         cost_arr[0] = best_cost = cost_local(final_partition_core, G, nodes, k - t, k + t)
     else:
         cost_arr[0] = best_cost = cost(final_partition_core, G, nodes)
-    
+
     temp_final_partition_core = np.zeros((4, nodes), dtype = int)
     temp_row = np.zeros(nodes, dtype = int)
     temp_col = np.zeros(nodes, dtype = int)
     temp_height = np.zeros(nodes, dtype = int)
-    
+
     for j in range(nodes):
         temp_row[j] = address.row[j]
         temp_col[j] = address.column[j]
         temp_height[j] = address.height[j]
         temp_final_partition_core[0][j] = final_partition_core[j]
-        
+
     min_row = address.row[k]
     min_col = address.column[k]
     max_row = address.row[k]
     max_col = address.column[k]
     min_height = address.height[k]
     max_height = address.height[k]
-    
+
     for w in range(k, k + t):
         if address.row[w] > max_row:
             max_row = address.row[w]
-        
+
         if address.column[w] > max_col:
             max_col = address.column[w]
 
@@ -871,9 +875,9 @@ def flipd(
 
     avg_col = (max_col + min_col)/2.0
     avg_row = (max_row + min_row)/2.0
-    avg_ht = (max_height + min_height)/2.0    
+    avg_ht = (max_height + min_height)/2.0
 
-    
+
     # Flip along level axis:
     difference = (max_height - min_height)/2.0
     shift = math.ceil(difference)
@@ -883,7 +887,7 @@ def flipd(
             address.height[w] = address.height[w] - shift
         else:
             address.height[w] = address.height[w] + shift
-    
+
     for w in range(nodes):
         for j in range(nodes):
             if temp_row[w] == address.row[w] and temp_col[w] == address.column[w] and temp_height[w] == address.height[w]:
@@ -898,25 +902,25 @@ def flipd(
     if local == 1:
         cost_arr[1] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
     else:
-        cost_arr[1] = cost(temp_final_partition_core[1], G, nodes)  
+        cost_arr[1] = cost(temp_final_partition_core[1], G, nodes)
 
     # Flip along horizontal axis:
 
     difference = (max_row - min_row)/2.0
     shift = math.ceil(difference)
-    
+
     for w in range(k, k + t):
         if address.row[w] >= avg_row:
             address.row[w] = address.row[w] - shift
         elif address.row[w] < avg_row:
             address.row[w] = address.row[w] + shift
-        
+
     for w in range(nodes):
         for j in range(nodes):
             if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
                 temp_final_partition_core[2][w] = final_partition_core[j]
                 break
-    
+
     for j in range(nodes):
         address.row[j] = temp_row[j]
         address.column[j] = temp_col[j]
@@ -926,9 +930,9 @@ def flipd(
         cost_arr[2] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
     else:
         cost_arr[2] = cost(temp_final_partition_core[1], G, nodes)
-        
+
     # Flip along level axis again:
-    
+
     difference = (max_height - min_height)/2.0
     shift = math.ceil(difference)
 
@@ -937,7 +941,7 @@ def flipd(
             address.height[w] = address.height[w] - shift
         else:
             address.height[w] = address.height[w] + shift
-    
+
     for w in range(nodes):
         for j in range(nodes):
             if temp_row[w] == address.row[w] and temp_col[w] == address.column[w] and temp_height[w] == address.height[w]:
@@ -952,15 +956,15 @@ def flipd(
     if local == 1:
         cost_arr[3] = cost_local(temp_final_partition_core[1], G, nodes, k - t, k + t)
     else:
-        cost_arr[3] = cost(temp_final_partition_core[1], G, nodes)  
-    
+        cost_arr[3] = cost(temp_final_partition_core[1], G, nodes)
+
 
     # Find the best partitioning
     for j in range(1, 4):
         if cost_arr[j] < best_cost:
             best = j
             best_cost = cost_arr[j]
-            
+
     # Finalizing results:
     for j in range(nodes):
         final_partition_core[j] = temp_final_partition_core[best][j]

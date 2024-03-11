@@ -7,7 +7,7 @@ import numpy as np
 
 # Logging info
 logging.basicConfig(
-    format="%(asctime)s %(levelname)s: %(message)s",
+    format="%(asctime)s %(levelname)s %(funcName)s %(lineno)s: %(message)s",
     datefmt="%m/%d/%Y %I:%M:%S %p",
     filename="info.log",
     filemode = 'w',

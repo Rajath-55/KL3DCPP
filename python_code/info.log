@@ -1,138 +1,138 @@
-03/11/2024 09:09:46 AM INFO: Number of layers is 1
-03/11/2024 09:09:46 AM INFO: Check number of nodes = 4.0, Nearest power of 2 = 4
-03/11/2024 09:09:46 AM INFO: rows 4, cols 4
-03/11/2024 09:09:46 AM INFO: Read graph completed.
-03/11/2024 09:09:46 AM INFO: Nodes / Number of layers = 16
-03/11/2024 09:09:46 AM INFO: Row addressing - [0, 0, 1, 1, 0, 0, 1, 1, 2, 2, 3, 3, 2, 2, 3, 3]
-03/11/2024 09:09:46 AM INFO: Column addressing - [0, 1, 0, 1, 2, 3, 2, 3, 0, 1, 0, 1, 2, 3, 2, 3]
-03/11/2024 09:09:46 AM INFO: Height addressing - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-03/11/2024 09:09:46 AM INFO: best cost=124.0
-03/11/2024 09:09:46 AM INFO: best cost=16.0
-03/11/2024 09:09:46 AM INFO: best cost=362.0
-03/11/2024 09:09:46 AM INFO: best cost=907.0
-03/11/2024 09:09:46 AM INFO: best cost=300.0
-03/11/2024 09:09:46 AM INFO: best cost=70.0
-03/11/2024 09:09:46 AM INFO: 0
-03/11/2024 09:09:46 AM INFO: Rask = 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: Graph1.txt	no. of cores= 16
-03/11/2024 09:09:46 AM INFO: Final Partition core: 
-03/11/2024 09:09:46 AM INFO: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
-03/11/2024 09:09:46 AM INFO: BEST COST = 8181.0
-03/11/2024 09:09:46 AM INFO: Cost in CC : 8181.0
-03/11/2024 09:09:46 AM INFO: 
-
-16	4	4
-
-03/11/2024 09:09:46 AM INFO: Completed in 0.0009530000000000025
-03/11/2024 09:09:46 AM INFO: FINISHED
-03/11/2024 09:09:46 AM INFO: Finished the run 0
-03/11/2024 09:09:46 AM INFO: best cost=124.0
-03/11/2024 09:09:46 AM INFO: best cost=16.0
-03/11/2024 09:09:46 AM INFO: best cost=362.0
-03/11/2024 09:09:46 AM INFO: best cost=907.0
-03/11/2024 09:09:46 AM INFO: best cost=300.0
-03/11/2024 09:09:46 AM INFO: best cost=70.0
-03/11/2024 09:09:46 AM INFO: 0
-03/11/2024 09:09:46 AM INFO: Rask = 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: Graph1.txt	no. of cores= 16
-03/11/2024 09:09:46 AM INFO: Final Partition core: 
-03/11/2024 09:09:46 AM INFO: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
-03/11/2024 09:09:46 AM INFO: BEST COST = 8181.0
-03/11/2024 09:09:46 AM INFO: Cost in CC : 8181.0
-03/11/2024 09:09:46 AM INFO: 
-
-16	4	4
-
-03/11/2024 09:09:46 AM INFO: Completed in 0.0008910000000000029
-03/11/2024 09:09:46 AM INFO: FINISHED
-03/11/2024 09:09:46 AM INFO: Finished the run 1
-03/11/2024 09:09:46 AM INFO: best cost=124.0
-03/11/2024 09:09:46 AM INFO: best cost=16.0
-03/11/2024 09:09:46 AM INFO: best cost=362.0
-03/11/2024 09:09:46 AM INFO: best cost=907.0
-03/11/2024 09:09:46 AM INFO: best cost=300.0
-03/11/2024 09:09:46 AM INFO: best cost=70.0
-03/11/2024 09:09:46 AM INFO: 0
-03/11/2024 09:09:46 AM INFO: Rask = 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: Graph1.txt	no. of cores= 16
-03/11/2024 09:09:46 AM INFO: Final Partition core: 
-03/11/2024 09:09:46 AM INFO: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
-03/11/2024 09:09:46 AM INFO: BEST COST = 8181.0
-03/11/2024 09:09:46 AM INFO: Cost in CC : 8181.0
-03/11/2024 09:09:46 AM INFO: 
-
-16	4	4
-
-03/11/2024 09:09:46 AM INFO: Completed in 0.0009769999999999987
-03/11/2024 09:09:46 AM INFO: FINISHED
-03/11/2024 09:09:46 AM INFO: Finished the run 2
-03/11/2024 09:09:46 AM INFO: best cost=124.0
-03/11/2024 09:09:46 AM INFO: best cost=16.0
-03/11/2024 09:09:46 AM INFO: best cost=362.0
-03/11/2024 09:09:46 AM INFO: best cost=907.0
-03/11/2024 09:09:46 AM INFO: best cost=300.0
-03/11/2024 09:09:46 AM INFO: best cost=70.0
-03/11/2024 09:09:46 AM INFO: 0
-03/11/2024 09:09:46 AM INFO: Rask = 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: Graph1.txt	no. of cores= 16
-03/11/2024 09:09:46 AM INFO: Final Partition core: 
-03/11/2024 09:09:46 AM INFO: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
-03/11/2024 09:09:46 AM INFO: BEST COST = 8181.0
-03/11/2024 09:09:46 AM INFO: Cost in CC : 8181.0
-03/11/2024 09:09:46 AM INFO: 
-
-16	4	4
-
-03/11/2024 09:09:46 AM INFO: Completed in 0.0008930000000000049
-03/11/2024 09:09:46 AM INFO: FINISHED
-03/11/2024 09:09:46 AM INFO: Finished the run 3
-03/11/2024 09:09:46 AM INFO: best cost=124.0
-03/11/2024 09:09:46 AM INFO: best cost=16.0
-03/11/2024 09:09:46 AM INFO: best cost=362.0
-03/11/2024 09:09:46 AM INFO: best cost=907.0
-03/11/2024 09:09:46 AM INFO: best cost=300.0
-03/11/2024 09:09:46 AM INFO: best cost=70.0
-03/11/2024 09:09:46 AM INFO: 0
-03/11/2024 09:09:46 AM INFO: Rask = 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: 
- Cost : 8181.0
-03/11/2024 09:09:46 AM INFO: Graph1.txt	no. of cores= 16
-03/11/2024 09:09:46 AM INFO: Final Partition core: 
-03/11/2024 09:09:46 AM INFO: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
-03/11/2024 09:09:46 AM INFO: BEST COST = 8181.0
-03/11/2024 09:09:46 AM INFO: Cost in CC : 8181.0
-03/11/2024 09:09:46 AM INFO: 
-
-16	4	4
-
-03/11/2024 09:09:46 AM INFO: Completed in 0.0008480000000000015
-03/11/2024 09:09:46 AM INFO: FINISHED
-03/11/2024 09:09:46 AM INFO: Finished the run 4
+03/11/2024 11:32:35 AM INFO main 220: Number of layers is 1
+03/11/2024 11:32:35 AM INFO read_graph 50: Check number of nodes = 4.0, Nearest power of 2 = 4
+03/11/2024 11:32:35 AM INFO read_graph 79: rows 4, cols 4
+03/11/2024 11:32:35 AM INFO main 223: Read graph completed.
+03/11/2024 11:32:35 AM INFO initialize_add 130: Nodes / Number of layers = 16
+03/11/2024 11:32:35 AM INFO initialize_add 182: Row addressing - [0, 0, 1, 1, 0, 0, 1, 1, 2, 2, 3, 3, 2, 2, 3, 3]
+03/11/2024 11:32:35 AM INFO initialize_add 183: Column addressing - [0, 1, 0, 1, 2, 3, 2, 3, 0, 1, 0, 1, 2, 3, 2, 3]
+03/11/2024 11:32:35 AM INFO initialize_add 184: Height addressing - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=124.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=16.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=362.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=907.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=300.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=70.0
+03/11/2024 11:32:35 AM INFO perform_KL 325: 0
+03/11/2024 11:32:35 AM INFO perform_KL 328: Rask = 8181.0
+03/11/2024 11:32:35 AM INFO map_nodes 399: Starting 
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 345: Distributive	Graph1.txt	no. of cores= 16
+03/11/2024 11:32:35 AM INFO perform_KL 350: Final Partition core: 
+03/11/2024 11:32:35 AM INFO perform_KL 351: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
+03/11/2024 11:32:35 AM INFO perform_KL 368: BEST COST = 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 370: Cost in CC : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 372: No of nodes : 16 Graph rows : 4 Graph columns: 4
+03/11/2024 11:32:35 AM INFO perform_KL 375: Completed in 0.0010770000000000016
+03/11/2024 11:32:35 AM INFO perform_KL 377: FINISHED
+03/11/2024 11:32:35 AM INFO main 262: Finished the run 0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=124.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=16.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=362.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=907.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=300.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=70.0
+03/11/2024 11:32:35 AM INFO perform_KL 325: 0
+03/11/2024 11:32:35 AM INFO perform_KL 328: Rask = 8181.0
+03/11/2024 11:32:35 AM INFO map_nodes 399: Starting 
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 345: Distributive	Graph1.txt	no. of cores= 16
+03/11/2024 11:32:35 AM INFO perform_KL 350: Final Partition core: 
+03/11/2024 11:32:35 AM INFO perform_KL 351: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
+03/11/2024 11:32:35 AM INFO perform_KL 368: BEST COST = 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 370: Cost in CC : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 372: No of nodes : 16 Graph rows : 4 Graph columns: 4
+03/11/2024 11:32:35 AM INFO perform_KL 375: Completed in 0.001021000000000001
+03/11/2024 11:32:35 AM INFO perform_KL 377: FINISHED
+03/11/2024 11:32:35 AM INFO main 262: Finished the run 1
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=124.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=16.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=362.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=907.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=300.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=70.0
+03/11/2024 11:32:35 AM INFO perform_KL 325: 0
+03/11/2024 11:32:35 AM INFO perform_KL 328: Rask = 8181.0
+03/11/2024 11:32:35 AM INFO map_nodes 399: Starting 
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 345: Distributive	Graph1.txt	no. of cores= 16
+03/11/2024 11:32:35 AM INFO perform_KL 350: Final Partition core: 
+03/11/2024 11:32:35 AM INFO perform_KL 351: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
+03/11/2024 11:32:35 AM INFO perform_KL 368: BEST COST = 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 370: Cost in CC : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 372: No of nodes : 16 Graph rows : 4 Graph columns: 4
+03/11/2024 11:32:35 AM INFO perform_KL 375: Completed in 0.0010340000000000002
+03/11/2024 11:32:35 AM INFO perform_KL 377: FINISHED
+03/11/2024 11:32:35 AM INFO main 262: Finished the run 2
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=124.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=16.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=362.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=907.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=300.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=70.0
+03/11/2024 11:32:35 AM INFO perform_KL 325: 0
+03/11/2024 11:32:35 AM INFO perform_KL 328: Rask = 8181.0
+03/11/2024 11:32:35 AM INFO map_nodes 399: Starting 
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 345: Distributive	Graph1.txt	no. of cores= 16
+03/11/2024 11:32:35 AM INFO perform_KL 350: Final Partition core: 
+03/11/2024 11:32:35 AM INFO perform_KL 351: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
+03/11/2024 11:32:35 AM INFO perform_KL 368: BEST COST = 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 370: Cost in CC : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 372: No of nodes : 16 Graph rows : 4 Graph columns: 4
+03/11/2024 11:32:35 AM INFO perform_KL 375: Completed in 0.0010360000000000022
+03/11/2024 11:32:35 AM INFO perform_KL 377: FINISHED
+03/11/2024 11:32:35 AM INFO main 262: Finished the run 3
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=124.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=16.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=362.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=907.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=300.0
+03/11/2024 11:32:35 AM INFO KL_partition 105: best cost=70.0
+03/11/2024 11:32:35 AM INFO perform_KL 325: 0
+03/11/2024 11:32:35 AM INFO perform_KL 328: Rask = 8181.0
+03/11/2024 11:32:35 AM INFO map_nodes 399: Starting 
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO iterative_improvement 462: Starting
+03/11/2024 11:32:35 AM INFO map_nodes 419: Cost : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 345: Distributive	Graph1.txt	no. of cores= 16
+03/11/2024 11:32:35 AM INFO perform_KL 350: Final Partition core: 
+03/11/2024 11:32:35 AM INFO perform_KL 351: [[11, 15, 12, 13, 3, 14, 4, 5, 6, 10, 7, 8, 0, 9, 2, 1]]
+03/11/2024 11:32:35 AM INFO perform_KL 368: BEST COST = 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 370: Cost in CC : 8181.0
+03/11/2024 11:32:35 AM INFO perform_KL 372: No of nodes : 16 Graph rows : 4 Graph columns: 4
+03/11/2024 11:32:35 AM INFO perform_KL 375: Completed in 0.0010319999999999982
+03/11/2024 11:32:35 AM INFO perform_KL 377: FINISHED
+03/11/2024 11:32:35 AM INFO main 262: Finished the run 4
