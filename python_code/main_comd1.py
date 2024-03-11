@@ -114,6 +114,8 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
         for i in range(nodes):
             netlist[i][i] = 0.0
 
+    logging.info(f"Netlist = {netlist}")
+
     return netlist
 
 
@@ -323,7 +325,7 @@ def perform_KL(
         KL_partition(i, netlist, nodes // 2, partition[1], final_partition_core)
 
         q.update(0)
-        logging.info(q.get())
+        # logging.info(q.get())
 
         rask = cost(final_partition_core[i], netlist, nodes)
         logging.info("Rask = " + str(rask))
@@ -333,13 +335,15 @@ def perform_KL(
 
         fp.write(f"\n{i}\n{rask}\n\n")
 
-    best_cost = 2147483647 # not the same as cpp
+    best_cost = float('inf') # not the same as cpp
     cost_f = [0.0] * init
     best = 0
     temp = 0.0
 
     for i in range(init):
         cost_f[i] = map_nodes(nodes, final_partition_core[i], netlist)
+
+    logging.debug(f"Cost f = {cost_f}")
 
     if distri == 1:
         fp.write(f"\nDistributive\t{argv[1]}\tno. of cores= {actual_no_of_nodes}\tno. of cuts {init}\n")
@@ -393,11 +397,11 @@ def map_nodes(
     Description : This function takes the core sequence generated from the partioning algorithm and first applies iterative power improvements (local followed by global) and the iterative cost improvements (local followed by global). Then the final best cost thus found and the corresponding core sequence is returned.
     """
     temp_final_partition_core = [0 for _ in range(nodes)]
-    best_cost = [0.0 for _ in range(4)]
+    best_cost = [float('inf') for _ in range(4)]
     ############## Iterative improvement phase for Communication cost improvements ################
 
     # Local phase
-    logging.info("Starting ")
+    logging.debug("Starting ")
 
     iterative_improvement(
         graph, final_partition_core, nodes, 1
@@ -406,6 +410,7 @@ def map_nodes(
     # global phase
 
     final_global_best_cost = cost(final_partition_core, graph, nodes)
+    logging.debug(f"Final global best cost = {final_global_best_cost}")
 
     for i in range(nodes):
         temp_final_partition_core[i] = final_partition_core[i]
@@ -460,7 +465,7 @@ def iterative_improvement(
 
     Description : This function takes the core sequence generated from the partitioning and performs iterations for improving communication cost of the mapping. The partitions are selected in pairs, at a level of partitioning, and different arrangements are generated in one of the partition keeping the other fixed. The same procedure is repeated for all the levels of partitioning.
     """
-    logging.info("Starting")
+    # logging.debug("Starting")
 
     n4 = math.log2(nodes)
     n = int(n4)
@@ -493,7 +498,7 @@ def iterative_improvement(
                     break
 
             t = int(math.pow(2, n - curr_lvl))
-            logging.info("Reaching here")
+            # logging.info("Reaching here")
 
             min_row = address.row[k-t]
             min_col = address.column[k-t]
@@ -514,7 +519,7 @@ def iterative_improvement(
             avg_col = (max_col + min_col) / 2.0
             avg_ht = (max_ht + min_ht) / 2.0
 
-            logging.info("Before flip should be called")
+            # logging.info("Before flip should be called")
 
             best_cost[0] = flip(graph, temp_final_partition_core[0], k, t, nodes, local)
 
@@ -703,7 +708,7 @@ def flip(
 
     Description : This function takes a partition and rearranges the core within it and checks for cost improvements. The arrangement with the lowest cost is returned.
     """
-    logging.info("Started in flip code")
+    # logging.debug("Started in flip code")
     cost_arr = [0.0] * 4
     best_cost = avg_row = avg_col = avg_ht = difference = 0.0
     if local == 1:
