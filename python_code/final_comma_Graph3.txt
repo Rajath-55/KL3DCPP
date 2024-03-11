@@ -1,0 +1,6 @@
+W,CC,Variance,Peak_Temp
+1024.0,1024.0
+W,CC,Variance,Peak_Temp
+1024.0,1024.0
+W,CC,Variance,Peak_Temp
+896.0,896.0

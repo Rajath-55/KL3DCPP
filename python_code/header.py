@@ -79,6 +79,7 @@ def KL_partition(
     if n <= LAMBDA:
         # Lambda = 2 for MoT and Mesh, while Lambda = 4 for BFT
         # Lambda represents the smallest partitions size.
+        logging.info("LAMBDA = " + str(LAMBDA) + " core_id size = " + str(len(core_id)))
         for i in range(LAMBDA):
             # print("q = " +str(q.get()))
             final_partition_core[index][q.get()] = core_id[i]

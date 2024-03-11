@@ -41,6 +41,7 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
     bandwidth_graph_pointer = open(name, "r+")
     nodes = int(bandwidth_graph_pointer.readline().strip())
     graph_info.actual_no_of_nodes = nodes
+    graph_info.edges = 0
     actual_no_of_nodes = nodes
     new_nodes = nodes
 
@@ -51,9 +52,9 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
         f"Check number of nodes = {check_power_of_2_nodes}, Nearest power of 2 = {power_of_2_nearest}"
     )
 
-    if power_of_2_nearest > float(check_power_of_2_nodes):
+    if check_power_of_2_nodes > float(power_of_2_nearest):
         logging.info("Adding dummy nodes.")
-        new_power_of_two = pow(2, check_power_of_2_nodes + 1)
+        new_power_of_two = pow(2, power_of_2_nearest + 1)
         new_nodes = int(new_power_of_two)
         logging.info(f"New Nodes with dummy - {new_nodes}")
 
@@ -69,10 +70,10 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
                 z = 0.0
             netlist[row][column] = z
 
-    temp_pow = math.log(nodes) / math.log(2.0)
+    temp_pow = math.log(new_nodes) / math.log(2.0)
     split1 = math.floor(temp_pow / 2.0)
     split2 = math.ceil(temp_pow / 2.0)
-    graph_info.no_nodes = nodes
+    graph_info.no_nodes = new_nodes
     graph_info.rows = int(pow(2, split1))
     graph_info.columns = int(pow(2, split2))
 
@@ -80,7 +81,7 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
     bandwidth_graph_pointer.close()
     distri = int(dist)
 
-    if power_of_2_nearest > float(check_power_of_2_nodes) and distri == 1:
+    if check_power_of_2_nodes > float(power_of_2_nearest) and distri == 1:
         # Fill 0s in dummy rows
         for i in range(actual_no_of_nodes, nodes):
             for j in range(nodes):
@@ -98,7 +99,7 @@ def read_graph(name: str, dist: str) -> Union[List[List[float]], None]:
         for i in range(nodes):
             netlist[i][i] = 0.0
 
-    elif power_of_2_nearest > float(check_power_of_2_nodes):
+    elif check_power_of_2_nodes > float(power_of_2_nearest):
         for i in range(actual_no_of_nodes, nodes):
             for j in range(nodes):
                 if j >= actual_no_of_nodes:
@@ -472,14 +473,16 @@ def iterative_improvement(
     temp_col = [0 for _ in range(nodes)]
     temp_ht = [0 for _ in range(nodes)]
 
+
     for curr_lvl in range(level,0,-1):
+        # logging.info(f"Nodes = {nodes}")
         for i in range(nodes):
             temp_final_partition_core[0][i] = final_partition_core[i]
             temp_final_partition_core[1][i] = final_partition_core[i]
             temp_final_partition_core[2][i] = final_partition_core[i]
             temp_final_partition_core[3][i] = final_partition_core[i]
 
-        for i in range(int(math.pow(2, curr_lvl)),2):
+        for i in range(0,int(math.pow(2, curr_lvl)),2):
             for j in range(nodes):
                 temp_row[j] = address.row[j]
                 temp_col[j] = address.column[j]
@@ -490,6 +493,7 @@ def iterative_improvement(
                     break
 
             t = int(math.pow(2, n - curr_lvl))
+            logging.info("Reaching here")
 
             min_row = address.row[k-t]
             min_col = address.column[k-t]
@@ -510,6 +514,8 @@ def iterative_improvement(
             avg_col = (max_col + min_col) / 2.0
             avg_ht = (max_ht + min_ht) / 2.0
 
+            logging.info("Before flip should be called")
+
             best_cost[0] = flip(graph, temp_final_partition_core[0], k, t, nodes, local)
 
             if curr_lvl == level:
@@ -525,7 +531,7 @@ def iterative_improvement(
 
                 for w in range(nodes):
                     for j in range(nodes):
-                        if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
+                        if temp_row[w]==address.row[j] and temp_col[w]==address.column[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[1][w] = final_partition_core[j]
                             break
 
@@ -550,7 +556,7 @@ def iterative_improvement(
 
                 for w in range(nodes):
                     for j in range(nodes):
-                        if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
+                        if temp_row[w]==address.row[j] and temp_col[w]==address.column[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[2][w] = final_partition_core[j]
                             break
 
@@ -575,7 +581,7 @@ def iterative_improvement(
 
                 for w in range(nodes):
                     for j in range(nodes):
-                        if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
+                        if temp_row[w]==address.row[j] and temp_col[w]==address.column[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[3][w] = final_partition_core[j]
                             break
 
@@ -600,7 +606,7 @@ def iterative_improvement(
 
                 for w in range(nodes):
                     for j in range(nodes):
-                        if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
+                        if temp_row[w]==address.row[j] and temp_col[w]==address.column[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[1][w] = final_partition_core[j]
                             break
 
@@ -625,7 +631,7 @@ def iterative_improvement(
 
                 for w in range(nodes):
                     for j in range(nodes):
-                        if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
+                        if temp_row[w]==address.row[j] and temp_col[w]==address.column[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[2][w] = final_partition_core[j]
                             break
 
@@ -649,7 +655,7 @@ def iterative_improvement(
 
                 for w in range(nodes):
                     for j in range(nodes):
-                        if temp_row[w]==address.row[j] and temp_col[w]==address.colum[j] and temp_ht[w]==address.height[j] :
+                        if temp_row[w]==address.row[j] and temp_col[w]==address.column[j] and temp_ht[w]==address.height[j] :
                             temp_final_partition_core[3][w] = final_partition_core[j]
                             break
 
@@ -709,7 +715,8 @@ def flip(
     temp_row = np.zeros(nodes, dtype = int)
     temp_col = np.zeros(nodes, dtype = int)
     temp_height = np.zeros(nodes, dtype = int)
-    logging.info("Reached here in numpy code")
+    # logging.info("Reached here in numpy code")
+    best = 0
 
     for j in range(nodes):
         temp_row[j] = address.row[j]
@@ -736,7 +743,6 @@ def flip(
 
     avg_col = (max_col + min_col)/2.0
     avg_row = (max_row + min_row)/2.0
-    avg_ht = (max_height + min_height)/2.0
 
     # Flip along horizontal axis.
     difference = (max_row - min_row)/2.0
@@ -849,6 +855,7 @@ def flipd(
     temp_row = np.zeros(nodes, dtype = int)
     temp_col = np.zeros(nodes, dtype = int)
     temp_height = np.zeros(nodes, dtype = int)
+    best = 0
 
     for j in range(nodes):
         temp_row[j] = address.row[j]
