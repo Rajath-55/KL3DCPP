@@ -443,7 +443,7 @@ def map_nodes(
 
     if final_global_best_cost > best_cost[3]:
         final_global_best_cost = best_cost[3]
-        for i in nodes:
+        for i in range(nodes):
             final_partition_core[i] = temp_final_partition_core[i]
 
     final_global_best_cost = cost(final_partition_core, graph, nodes)
