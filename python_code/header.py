@@ -12,7 +12,7 @@ logging.basicConfig(
     filename="info.log",
     filemode = 'w',
     encoding="utf-8",
-    level=logging.DEBUG,
+    level=logging.INFO,
 )
 
 # CAVEAT: q directly is not being updated. Using a class for this purpose.
@@ -31,7 +31,7 @@ class new_q:
 q = new_q()
 
 # Header definitions
-MAX = 1000000
+MAX = 99999999
 LAMBDA = 2
 WEIGHT = 1.0
 header_q = 0
@@ -73,16 +73,16 @@ def KL_partition(
     Output: final_partition_core => array holding the final core sequence generated after partitioning
     Description : This function is the control function for KL() partitioning function. It recursively calls itself till the smallest partition size is reached. The smallest size of partition is controlled by 'lambda' which is '2' for MoT and Mesh and '4' for BFT. It takes a number of random cuts for each partition by calling KL() and calculates the cut cost. The partitioning with the best cut cost is accepted and passed for further partitioning
     """
-    best_cost, cut = sys.maxsize, 0.0
-    global header_q
+    best_cost, cut = 99999999.0, 0.0
 
     if n <= LAMBDA:
         # Lambda = 2 for MoT and Mesh, while Lambda = 4 for BFT
         # Lambda represents the smallest partitions size.
-        logging.info("LAMBDA = " + str(LAMBDA) + " core_id size = " + str(len(core_id)))
+        # logging.info("LAMBDA = " + str(LAMBDA) + " core_id size = " + str(len(core_id)))
         for i in range(LAMBDA):
             # print("q = " +str(q.get()))
             final_partition_core[index][q.get()] = core_id[i]
+            logging.info(f"Reached n <= LAMBDA: final_partition core = {final_partition_core} index = {index} q = {q.get()}")
             q.update(q.get() + 1)
         return
 
@@ -122,6 +122,7 @@ def random_partition(
 
     Description : This function randomly bi-partitions the core sequence passed to it.
     """
+    logging.debug("Starting")
     j = k = 0
     random.seed(seed_value[indx])
     
@@ -165,6 +166,7 @@ def KL(
 
     Description : This function is the implementation of the KL bi-patitioning algorithm. Firstly, it calls random_partition() to generate 2 random partitions and then performs swapping according to KL algorithm. The partitions thus generated are returned.
     """
+    logging.debug("Starting ")
     random_partition(core_id, n, indx, partition)
     
     
@@ -181,6 +183,7 @@ def KL(
     
     if init_comm_cut_cost == 0:
         init_comm_cut_cost = partition_cost(graph, temp_a, temp_b, n // 2)
+        logging.info(f"Initial cost = {init_comm_cut_cost}")
         
     while True:
         counter = 0
@@ -280,7 +283,7 @@ def partition_cost(
         for j in range(n):
             cut += graph[A[i]][B[j]]
 
-    # print("Cut= ", cut)
+    logging.info("Cut= " + str(cut))
     return cut
 
 
@@ -331,13 +334,16 @@ def cost(map: List[int], G: List[List[float]], n: int) -> float:
     for index1 in range(n):
         for index2 in range(index1 + 1, n):
             if G[map[index1]][map[index2]] != MAX and G[map[index1]][map[index2]] != 0:
+                # logging.debug("Reaching here - non zero cost must come up")
                 if G[map[index1]][map[index2]] == G[map[index2]][map[index1]]:
+                    # logging.debug(f"Hops = {hops(index1, index2, n)}, map_cost = {G[map[index1]][map[index2]]}")
                     cost += float(hops(index1, index2, n) * G[map[index1]][map[index2]])
                 else:
                     cost += float(
                         hops(index1, index2, n) * G[map[index1]][map[index2]]
                     ) + float(hops(index2, index1, n) * G[map[index2]][map[index1]])
 
+    # logging.info(f"Cost must be positive then = {cost}")
     return cost
 
 
