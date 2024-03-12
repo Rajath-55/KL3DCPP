@@ -318,6 +318,7 @@ def perform_KL(
     rask = 0.0
 
     for i in range(init):
+        # logging.info(f"I  = {i}")
         KL(i, netlist, core_id, nodes, partition)
 
         # Call KL_Partition routine, on two halves
@@ -465,11 +466,11 @@ def iterative_improvement(
 
     Description : This function takes the core sequence generated from the partitioning and performs iterations for improving communication cost of the mapping. The partitions are selected in pairs, at a level of partitioning, and different arrangements are generated in one of the partition keeping the other fixed. The same procedure is repeated for all the levels of partitioning.
     """
-    # logging.debug("Starting")
+    logging.debug("Starting")
 
     n4 = math.log2(nodes)
     n = int(n4)
-    level = int(math.log2(nodes)) -1
+    level = int(math.log2(nodes)) - 1
 
     temp_final_partition_core = [[0 for _ in range(nodes)] for _ in range(4)]
     Global_best = 0.0
@@ -498,7 +499,6 @@ def iterative_improvement(
                     break
 
             t = int(math.pow(2, n - curr_lvl))
-            # logging.info("Reaching here")
 
             min_row = address.row[k-t]
             min_col = address.column[k-t]

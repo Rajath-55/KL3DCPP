@@ -12,7 +12,7 @@ logging.basicConfig(
     filename="info.log",
     filemode = 'w',
     encoding="utf-8",
-    level=logging.DEBUG,
+    level=logging.INFO,
 )
 
 # CAVEAT: q directly is not being updated. Using a class for this purpose.
@@ -336,14 +336,14 @@ def cost(map: List[int], G: List[List[float]], n: int) -> float:
             if G[map[index1]][map[index2]] != MAX and G[map[index1]][map[index2]] != 0:
                 # logging.debug("Reaching here - non zero cost must come up")
                 if G[map[index1]][map[index2]] == G[map[index2]][map[index1]]:
-                    logging.debug(f"Hops = {hops(index1, index2, n)}, map_cost = {G[map[index1]][map[index2]]}")
+                    # logging.debug(f"Hops = {hops(index1, index2, n)}, map_cost = {G[map[index1]][map[index2]]}")
                     cost += float(hops(index1, index2, n) * G[map[index1]][map[index2]])
                 else:
                     cost += float(
                         hops(index1, index2, n) * G[map[index1]][map[index2]]
                     ) + float(hops(index2, index1, n) * G[map[index2]][map[index1]])
 
-    logging.info(f"Cost must be positive then = {cost}")
+    # logging.info(f"Cost must be positive then = {cost}")
     return cost
 
 
