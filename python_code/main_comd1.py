@@ -520,8 +520,10 @@ def iterative_improvement(
             avg_ht = (max_ht + min_ht) / 2.0
 
             # logging.info("Before flip should be called")
+            logging.debug(f"Before flip on 0 - {temp_final_partition_core[0]}")
 
             best_cost[0] = flip(graph, temp_final_partition_core[0], k, t, nodes, local)
+            logging.debug(f"After flip on 0 - {temp_final_partition_core[0]}")
 
             if curr_lvl == level:
                 #### Flip along lvl axis ####
@@ -545,8 +547,9 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
+                logging.debug(f"Before flipd on 1 - {temp_final_partition_core[1]}")
                 best_cost[1] = flipd(graph, temp_final_partition_core[1], k, t, nodes, local)
-
+                logging.debug(f"After flipd on 1 - {temp_final_partition_core[1]}")
 
                 ##### Flip along horizontal axis ####
 
@@ -570,7 +573,9 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
+                logging.debug(f"Before flipd on 2 - {temp_final_partition_core[2]}")
                 best_cost[2] = flipd(graph, temp_final_partition_core[2], k, t, nodes, local)
+                logging.debug(f"After flipd on 2 - {temp_final_partition_core[2]}")
 
 
                 ##### Flip along lvl axis ####
@@ -595,7 +600,9 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
+                logging.debug(f"Before flipd on 3 - {temp_final_partition_core[3]}")
                 best_cost[3] = flipd(graph, temp_final_partition_core[3], k, t, nodes, local)
+                logging.debug(f"After flipd on 1 - {temp_final_partition_core[3]}")
 
             else:
                 #### Flip along horizontal axis ####
@@ -874,6 +881,8 @@ def flipd(
     max_col = address.column[k]
     min_height = address.height[k]
     max_height = address.height[k]
+    logging.debug(f"Temp row = {temp_row}, temp_col = {temp_col}, temp_height = {temp_height}")
+
 
     for w in range(k, k + t):
         if address.row[w] > max_row:
@@ -971,9 +980,11 @@ def flipd(
         cost_arr[3] = cost(temp_final_partition_core[1], G, nodes)
 
 
+    logging.debug(f"Temp final partition core = {temp_final_partition_core}")
     # Find the best partitioning
     for j in range(1, 4):
         if cost_arr[j] < best_cost:
+            logging.debug(f"Best cost = {best_cost} and cost_arr = {cost_arr[j]}")
             best = j
             best_cost = cost_arr[j]
 
