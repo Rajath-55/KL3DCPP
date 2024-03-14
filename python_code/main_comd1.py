@@ -178,6 +178,13 @@ def initialize_add() -> None:
             c += 1
         ht_add[i] = c - 1
 
+    x = int(math.pow(2, (n-1)//2))
+    y = x if n%2 else 2*x
+    for z in range(nodes):
+        row_add[z] = row_add[z]%x
+        row_add[z] = row_add[z]%y
+        
+
     address.column = col_add
     address.row = row_add
     address.height = ht_add
@@ -911,7 +918,7 @@ def flipd(
 
     for w in range(nodes):
         for j in range(nodes):
-            if temp_row[w] == address.row[w] and temp_col[w] == address.column[w] and temp_height[w] == address.height[w]:
+            if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
                 temp_final_partition_core[1][w] = final_partition_core[j]
                 break
 
@@ -965,7 +972,7 @@ def flipd(
 
     for w in range(nodes):
         for j in range(nodes):
-            if temp_row[w] == address.row[w] and temp_col[w] == address.column[w] and temp_height[w] == address.height[w]:
+            if temp_row[w] == address.row[j] and temp_col[w] == address.column[j] and temp_height[w] == address.height[j]:
                 temp_final_partition_core[3][w] = final_partition_core[j]
                 break
 

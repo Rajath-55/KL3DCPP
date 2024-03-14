@@ -11,6 +11,7 @@ int **a;
 float cost_best=99999999;
 int **save_partition;
 int *seed_value;
+int NUM_LAYERS = 1;
 struct graph_info
 {
     unsigned short No_nodes;
@@ -247,11 +248,20 @@ void initialize_add()
 	y=x;
 	else
 	y=2*x;
+	c = 0;
+
+	for(int i = 0; i < nodes; ++i){
+		if(i%(nodes/NUM_LAYERS) == 0){
+			c++;
+		}
+		ht_add[i] = c - 1;
+	}
+
 	for(int z=0; z<nodes; z++)
 	{
 		row_add[z]=row_add[z]%x;
 		col_add[z]=col_add[z]%y;
-		ht_add[z]=z/(nodes/2);
+		// ht_add[z]=z/(nodes/2);
 		cout<<"Z value "<<z<<" ht value "<<ht_add[z]<<"\n";
 	}
 	//Global address
@@ -313,6 +323,9 @@ int main(int argc, char *argv[])
 	//intialize_power_info(Core_Power);
 	float result_table [ 2 ];
 /*********************************/
+	if(argc >= 5){
+		NUM_LAYERS = atoi(argv[4]);
+	}
 	initialize_add();
 	int no_cuts = atoi ( argv [ 2 ] );
 	
