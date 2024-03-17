@@ -12,7 +12,7 @@ logging.basicConfig(
     filename="info.log",
     filemode = 'w',
     encoding="utf-8",
-    level=logging.DEBUG,
+    level=logging.INFO,
 )
 
 # CAVEAT: q directly is not being updated. Using a class for this purpose.
