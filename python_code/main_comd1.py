@@ -480,7 +480,7 @@ def iterative_improvement(
     level = int(math.log2(nodes)) - 1
 
     temp_final_partition_core = [[0 for _ in range(nodes)] for _ in range(4)]
-    Global_best = 0.0
+    global_best = 0.0
     best_cost = [0.0 for _ in range(4)]
     temp_row = [0 for _ in range(nodes)]
     temp_col = [0 for _ in range(nodes)]
@@ -494,8 +494,11 @@ def iterative_improvement(
             temp_final_partition_core[1][i] = final_partition_core[i]
             temp_final_partition_core[2][i] = final_partition_core[i]
             temp_final_partition_core[3][i] = final_partition_core[i]
+        
+        logging.debug(f"For level {level}, temp_final_partition_core = {temp_final_partition_core}")
 
         for i in range(0,int(math.pow(2, curr_lvl)),2):
+            logging.debug(f"for i = {i}, temp_final_partition_core = {temp_final_partition_core}")
             for j in range(nodes):
                 temp_row[j] = address.row[j]
                 temp_col[j] = address.column[j]
@@ -528,7 +531,6 @@ def iterative_improvement(
 
             # logging.info("Before flip should be called")
             logging.debug(f"Before flip on 0 - {temp_final_partition_core[0]}")
-
             best_cost[0] = flip(graph, temp_final_partition_core[0], k, t, nodes, local)
             logging.debug(f"After flip on 0 - {temp_final_partition_core[0]}")
 
@@ -554,9 +556,9 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
-                logging.debug(f"Before flipd on 1 - {temp_final_partition_core[1]}")
+                logging.debug(f"Same level Before flipd on 1 - {temp_final_partition_core[1]}")
                 best_cost[1] = flipd(graph, temp_final_partition_core[1], k, t, nodes, local)
-                logging.debug(f"After flipd on 1 - {temp_final_partition_core[1]}")
+                logging.debug(f"Same level After flipd on 1 - {temp_final_partition_core[1]}")
 
                 ##### Flip along horizontal axis ####
 
@@ -580,9 +582,9 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
-                logging.debug(f"Before flipd on 2 - {temp_final_partition_core[2]}")
+                logging.debug(f"Same level Before flipd on 2 - {temp_final_partition_core[2]}")
                 best_cost[2] = flipd(graph, temp_final_partition_core[2], k, t, nodes, local)
-                logging.debug(f"After flipd on 2 - {temp_final_partition_core[2]}")
+                logging.debug(f"Same level After flipd on 2 - {temp_final_partition_core[2]}")
 
 
                 ##### Flip along lvl axis ####
@@ -607,9 +609,9 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
-                logging.debug(f"Before flipd on 3 - {temp_final_partition_core[3]}")
+                logging.debug(f"Same level Before flipd on 3 - {temp_final_partition_core[3]}")
                 best_cost[3] = flipd(graph, temp_final_partition_core[3], k, t, nodes, local)
-                logging.debug(f"After flipd on 1 - {temp_final_partition_core[3]}")
+                logging.debug(f"Same level After flipd on 3 - {temp_final_partition_core[3]}")
 
             else:
                 #### Flip along horizontal axis ####
@@ -634,8 +636,10 @@ def iterative_improvement(
                     address.row[j] = temp_row[j]
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
-
+                
+                logging.debug(f"Different level before flipd on 1 = {temp_final_partition_core[1]}")
                 best_cost[1] = flipd(graph, temp_final_partition_core[1], k, t, nodes, local)
+                logging.debug(f"Different level after flipd on 1 = {temp_final_partition_core[1]}")
 
                 ##### Flip along vertical axis ####
 
@@ -659,7 +663,10 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
+                logging.debug(f"Different level before flipd on 2 = {temp_final_partition_core[2]}")
                 best_cost[2] = flipd(graph, temp_final_partition_core[2], k, t, nodes, local)
+                logging.debug(f"Different level after flipd on 2 = {temp_final_partition_core[2]}")
+
 
                 ##### Flip along horizontal axis ####
 
@@ -683,19 +690,22 @@ def iterative_improvement(
                     address.column[j] = temp_col[j]
                     address.height[j] = temp_ht[j]
 
+                logging.debug(f"Different level before flipd on 3 = {temp_final_partition_core[3]}")
                 best_cost[3] = flipd(graph, temp_final_partition_core[3], k, t, nodes, local)
+                logging.debug(f"Different level after flipd on 3 = {temp_final_partition_core[3]}")
 
             ###### Checked all combinations ########
 
-                Global_best = best_cost[0]
+                global_best = best_cost[0]
                 best_partition = 0
                 for j in range(4):
-                    if best_cost[j] < Global_best:
-                        Global_best = best_cost[j]
+                    if best_cost[j] < global_best:
+                        global_best = best_cost[j]
                         best_partition = j
 
                 for j in range(nodes):
                     final_partition_core[j] = temp_final_partition_core[best_partition][j]
+                logging.debug(f"After changing final_partition_core based on best-partition = {final_partition_core}, best_partition = {temp_final_partition_core[best_partition]}, index = {best_partition}")
 
     del temp_col
     del temp_row
@@ -730,10 +740,10 @@ def flip(
     else:
         cost_arr[0] = best_cost = cost(final_partition_core, G, nodes)
 
-    temp_final_partition_core = np.zeros((4, nodes), dtype = int)
-    temp_row = np.zeros(nodes, dtype = int)
-    temp_col = np.zeros(nodes, dtype = int)
-    temp_height = np.zeros(nodes, dtype = int)
+    temp_final_partition_core = [[0 for _ in range (nodes)] for _ in range(4)]
+    temp_row = [0] * nodes
+    temp_col = [0] * nodes
+    temp_height = [0] * nodes
     # logging.info("Reached here in numpy code")
     best = 0
 
@@ -742,6 +752,8 @@ def flip(
         temp_col[j] = address.column[j]
         temp_height[j] = address.height[j]
         temp_final_partition_core[0][j] = final_partition_core[j]
+
+    logging.debug(f"After initialization in flip - temp_final_partition_core = {temp_final_partition_core}, final_partition_core = {final_partition_core}")
 
     min_row = address.row[k]
     min_col = address.column[k]
@@ -797,7 +809,8 @@ def flip(
         if address.column[w] >= avg_col:
             address.column[w] = address.column[w] - shift
         elif address.column[w] < avg_col:
-            address.column[w] = address.column[w] - shift
+            # This was minus, plus is the answer
+            address.column[w] = address.column[w] + shift
 
     for w in range(nodes):
         for j in range(nodes):
@@ -805,6 +818,7 @@ def flip(
                 temp_final_partition_core[2][w] = final_partition_core[j]
                 break
 
+    # logging.debug(f"POTENTIAL ISSUE: in temp 2 - {temp_final_partition_core[2]}")
     for j in range(nodes):
         address.row[j] = temp_row[j]
         address.column[j] = temp_col[j]
@@ -840,6 +854,8 @@ def flip(
         cost_arr[3] = cost_local(temp_final_partition_core[3], G, nodes, k - t, k + t)
     else:
         cost_arr[3] = cost(temp_final_partition_core[3], G, nodes)
+
+    logging.debug(f"After all flips - {temp_final_partition_core}")
 
     # Finding the best partitioning:
     for j in range(1, 4):
