@@ -314,3 +314,7 @@ W,CC,Variance,Peak_Temp
 189.0,189.0
 W,CC,Variance,Peak_Temp
 362.0,362.0
+W,CC,Variance,Peak_Temp
+4580.0,4580.0
+W,CC,Variance,Peak_Temp
+362.0,362.0
