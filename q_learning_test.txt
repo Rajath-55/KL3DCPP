@@ -1,0 +1,7 @@
+What do we do to apply Q-learning?
+
+Have to minimize the number of swaps made / flips made. 
+
+A good flip should give a reward to the algo, and a bad one should negatively
+reward.
+

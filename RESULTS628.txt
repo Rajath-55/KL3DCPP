@@ -29398,3 +29398,423 @@ Graph1.txt	no. of cores= 16	no. of cuts 100
 
 ***** best cost=0.000000
 best =1	Execution Time: 0.076765
+9 10	8 7	5 6	4 16	14 13	15 12	1 11	3 2	
+0
+4816
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+10 9	8 7	4 16	6 5	10 9	8 7	4 16	6 5	
+0
+13372.000000
+
+
+
+***** best cost=13372.000000
+best =0	Execution Time: 0.001998
+1 11	2 3	14 13	15 12	4 16	5 6	7 8	9 10	
+0
+4866
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+1 11	2 3	15 12	14 13	1 11	2 3	15 12	14 13	
+0
+2804.000000
+
+
+
+***** best cost=2804.000000
+best =0	Execution Time: 0.001616
+11 1	2 3	14 13	12 15	9 10	8 7	4 16	6 5	
+0
+5153
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+1 11	2 3	15 12	14 13	1 11	2 3	15 12	14 13	
+0
+2804.000000
+
+
+
+***** best cost=2804.000000
+best =0	Execution Time: 0.001471
+8 7	9 10	6 5	16 4	14 13	11 15	2 3	12 1	
+0
+4392
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+8 7	10 9	6 5	16 4	8 7	10 9	6 5	16 4	
+0
+12032.000000
+
+
+
+***** best cost=12032.000000
+best =0	Execution Time: 0.001543
+14 13	12 15	2 3	11 1	7 8	9 10	16 4	5 6	
+0
+5237
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+14 13	15 12	3 2	11 1	14 13	15 12	3 2	11 1	
+0
+2804.000000
+
+
+
+***** best cost=2804.000000
+best =0	Execution Time: 0.001526
+8 7	9 10	16 4	6 5	14 13	11 15	3 2	12 1	
+0
+4659
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+8 7	10 9	6 5	16 4	8 7	10 9	6 5	16 4	
+0
+12032.000000
+
+
+
+***** best cost=12032.000000
+best =0	Execution Time: 0.001628
+12 1	3 2	15 11	13 14	5 6	4 16	7 8	9 10	
+0
+3821
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+1 12	2 3	15 11	13 14	1 12	2 3	15 11	13 14	
+0
+2868.000000
+
+
+
+***** best cost=2868.000000
+best =0	Execution Time: 0.001533
+15 11	13 14	9 12	10 8	6 7	16 5	2 1	3 4	
+0
+5573
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+15 11	14 13	12 9	8 10	15 11	14 13	12 9	8 10	
+0
+7272.000000
+
+
+
+***** best cost=7272.000000
+best =0	Execution Time: 0.001583
+14 13	12 15	11 1	2 3	5 6	16 4	9 10	8 7	
+0
+5859
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+14 13	15 12	3 2	11 1	14 13	15 12	3 2	11 1	
+0
+2804.000000
+
+
+
+***** best cost=2804.000000
+best =0	Execution Time: 0.001538
+8 10	9 12	13 14	11 15	5 16	7 6	1 2	4 3	
+0
+5284
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+10 8	9 12	13 14	11 15	10 8	9 12	13 14	11 15	
+0
+7272.000000
+
+
+
+***** best cost=7272.000000
+best =0	Execution Time: 0.001515
+15 11	13 14	10 8	12 9	7 6	5 16	2 1	3 4	
+0
+5932
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+15 11	14 13	8 10	12 9	15 11	14 13	8 10	12 9	
+0
+7272.000000
+
+
+
+***** best cost=7272.000000
+best =0	Execution Time: 0.001677
+4 16	5 6	10 9	8 7	13 14	12 15	3 2	11 1	
+0
+4866
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+4 16	5 6	9 10	7 8	4 16	5 6	9 10	7 8	
+0
+12032.000000
+
+
+
+***** best cost=12032.000000
+best =0	Execution Time: 0.001550
+2 3	1 12	13 14	11 15	7 8	9 10	16 4	6 5	
+0
+5171
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+2 3	1 12	13 14	11 15	2 3	1 12	13 14	11 15	
+0
+2804.000000
+
+
+
+***** best cost=2804.000000
+best =0	Execution Time: 0.001508
+12 1	2 3	11 15	13 14	10 9	8 7	5 6	16 4	
+0
+5640
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+1 12	2 3	11 15	13 14	1 12	2 3	11 15	13 14	
+0
+2804.000000
+
+
+
+***** best cost=2804.000000
+best =0	Execution Time: 0.001506
+13 14	11 15	3 2	12 1	8 7	9 10	6 5	4 16	
+0
+4673
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+14 13	15 11	3 2	12 1	14 13	15 11	3 2	12 1	
+0
+2804.000000
+
+
+
+***** best cost=2804.000000
+best =0	Execution Time: 0.001509
+10 8	9 12	15 11	13 14	16 5	7 6	3 4	1 2	
+0
+5514
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+10 8	9 12	15 11	13 14	7 6	16 5	1 2	4 3	
+0
+4457.000000
+
+
+
+***** best cost=4457.000000
+best =0	Execution Time: 0.001680
+13 14	11 15	3 2	12 1	4 16	5 6	9 10	7 8	
+0
+4891
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+3 2	12 1	13 14	11 15	4 16	5 6	9 10	7 8	
+0
+4199.000000
+
+
+
+***** best cost=4199.000000
+best =0	Execution Time: 0.001597
+15 11	13 14	9 12	10 8	2 1	4 3	6 7	16 5	
+0
+5932
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+15 11	14 13	12 9	10 8	3 4	2 1	5 16	6 7	
+0
+4235.000000
+
+
+
+***** best cost=4235.000000
+best =0	Execution Time: 0.001578
+15 11	14 13	9 12	10 8	16 5	7 6	1 2	3 4	
+0
+6289
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+12 9	8 10	15 11	13 14	16 5	7 6	4 3	1 2	
+0
+4205.000000
+
+
+
+***** best cost=4205.000000
+best =0	Execution Time: 0.001574
+5 16	6 7	4 3	1 2	14 13	11 15	8 10	9 12	
+0
+5228
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+16 5	7 6	4 3	1 2	12 9	8 10	14 13	11 15	
+0
+4205.000000
+
+
+
+***** best cost=4205.000000
+best =0	Execution Time: 0.001290
+16 4	6 5	7 8	9 10	1 12	2 3	11 15	14 13	
+0
+5636
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+16 4	5 6	9 10	7 8	1 1	1 1	1 1	1 1	
+0
+3696.000000
+
+
+
+***** best cost=3696.000000
+best =0	Execution Time: 0.001559
+12 15	13 14	1 11	3 2	6 5	4 16	8 7	9 10	
+0
+6590
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+12 15	13 14	11 1	2 3	1 1	1 1	1 1	1 1	
+0
+2203.000000
+
+
+
+***** best cost=2203.000000
+best =0	Execution Time: 0.001562
+10 8	9 12	11 15	7 6	4 5	2 3	13 14	1 16	
+0
+6606
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+10 8	9 12	7 6	11 15	1 1	1 1	1 1	1 1	
+0
+2614.000000
+
+
+
+***** best cost=2614.000000
+best =0	Execution Time: 0.001465
+14 13	15 11	12 9	8 10	16 5	6 7	1 2	3 4	
+0
+6457
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+14 13	15 11	12 9	8 10	1 1	1 1	1 1	1 1	
+0
+1850.000000
+
+
+
+***** best cost=1850.000000
+best =0	Execution Time: 0.001439
+13 14	12 15	3 2	1 11	4 16	6 5	9 10	8 7	
+0
+6590
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+13 14	12 15	2 3	1 11	1 1	1 1	1 1	1 1	
+0
+2165.000000
+
+
+
+***** best cost=2165.000000
+best =0	Execution Time: 0.001524
+4 16	6 5	8 7	9 10	2 3	11 1	13 14	15 12	
+0
+7933
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+4 16	5 6	1 1	1 1	1 1	1 1	1 1	1 1	
+0
+1211.000000
+
+
+
+***** best cost=1211.000000
+best =0	Execution Time: 0.000914
+2 3	1 11	12 15	13 14	9 10	7 8	16 4	5 6	
+0
+7669
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+3 2	11 1	12 15	13 14	1 1	1 1	1 1	1 1	
+0
+2315.000000
+
+
+
+***** best cost=2315.000000
+best =0	Execution Time: 0.000845
+8 10	9 12	11 15	14 13	5 16	7 6	1 2	3 4	
+0
+8303
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+8 10	12 9	1 1	1 1	1 1	1 1	1 1	1 1	
+0
+2269.000000
+
+
+
+***** best cost=2269.000000
+best =0	Execution Time: 0.000748
+9 10	7 8	4 16	5 6	14 13	15 12	3 2	11 1	
+0
+6578
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+9 10	7 8	1 1	1 1	1 1	1 1	1 1	1 1	
+0
+2646.000000
+
+
+
+***** best cost=2646.000000
+best =0	Execution Time: 0.000749
+4 3	1 2	7 6	16 5	12 9	10 8	13 14	15 11	
+0
+7964
+
+
+Graph1.txt	no. of cores= 16	no. of cuts 1
+4 3	1 2	1 1	1 1	1 1	1 1	1 1	1 1	
+0
+3396.000000
+
+
+
+***** best cost=3396.000000
+best =0	Execution Time: 0.000919
