@@ -272,6 +272,7 @@ def main(argv: List[str]) -> int:
         logging.info("Finished the run " + str(_))
 
     fptr1.write(f"{result_table[0]},{result_table[1]}\n")
+    print("Cost of cc for " + argv[1] + " = " + str(output[0]))
     fptr.close()
     fptr1.close()
 
